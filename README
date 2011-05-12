@@ -5,7 +5,8 @@ directly from arbitrary source trees.
 
 The src2html.pl script can generate an HTML tree from the source tree that you specify, for example:
 
-    perl src2html.pl /path/to/my/src/tree/ 'Your Book Title'
+    export PATH=/path/to/src2kindle:$PATH
+    src2html.pl /path/to/my/src/tree/ 'Your Book Title'
 
 And then you can generate a mobi file using Calibre
 ( http://calibre-ebook.com/ ):
