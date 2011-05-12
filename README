@@ -1,0 +1,32 @@
+This project provides utilities to help generating .mobi ebook files
+directly from arbitrary source trees.
+
+The src2html.pl script can generate an HTML tree from the source tree that you specify, for example:
+
+    perl src2html.pl /path/to/my/src/tree/ 'Your Book Title'
+
+And then you can generate a mobi file using Calibre
+( http://calibre-ebook.com/ ):
+
+    ebook-convert /path/to/my/src/tree/index.html my-src.mobi \
+    --output-profile kindle_dx --no-inline-toc \
+    --title "Your Book Title" --publisher 'Your Name' \
+    --language en --authors 'Your Author Name'
+
+The ebook-convert utility is provided by Calibre, see its online
+documentation for full usage:
+
+    http://calibre-ebook.com/user_manual/cli/ebook-convert.html
+
+Well you need both perl and python ;)
+
+Currently only the following files will be searched by
+src2html.pl according to their file extensions:
+
+    .c .cpp .h
+    .tt .js .pl .php .t .pod .xml .conf .pm6
+    .lzsql .lzapi .grammar .lua .java .sql
+
+You can edit the related regex in the Perl source of the src2html.pl
+to add or remove extensions that it will recognize.
+
