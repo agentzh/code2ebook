@@ -1,3 +1,5 @@
+Want to browse big source code trees in your Kinde?
+
 This project provides utilities to help generating .mobi ebook files
 directly from arbitrary source trees.
 
@@ -12,6 +14,10 @@ And then you can generate a mobi file using Calibre
     --output-profile kindle_dx --no-inline-toc \
     --title "Your Book Title" --publisher 'Your Name' \
     --language en --authors 'Your Author Name'
+
+Here we use the value "kindle_dx" for the --output-profile option
+assuming that we want to view the ebook in Kindle DX. You
+should use "kindle" for other (smaller) models of Kindle.
 
 The ebook-convert utility is provided by Calibre, see its online
 documentation for full usage:
