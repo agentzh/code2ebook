@@ -18,7 +18,7 @@ sub process_dir ($) {
     my @items;
     while (my $entity = readdir($dh)) {
         # entity: $entity
-        if (-f "$dir/$entity" && !-l "$dir/$entity" && ($entity =~ /\.(?:c(?:pp)?|h|tt|js|pl|php|t|pod|xml|conf|pm6?|lzsql|lzapi|grammar|lua|java|sql|nqp|erl)$/ || $entity eq 'README')) {
+        if (-f "$dir/$entity" && !-l "$dir/$entity" && ($entity =~ /^rx_|\.(?:c(?:pp)?|h|tt|js|pl|php|t|pod|xml|conf|pm6?|lzsql|lzapi|grammar|lua|java|sql|nqp|erl|mq4|rl)$/ || $entity eq 'README')) {
             ## file: $entity
             write_src_html($dir, $entity);
             push @items, [file => $entity];
