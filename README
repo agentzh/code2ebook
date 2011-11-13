@@ -16,6 +16,11 @@ And then you can generate a mobi file using Calibre
     --title "Your Book Title" --publisher 'Your Name' \
     --language en --authors 'Your Author Name'
 
+Maybe you could take a coffee break :)
+
+Note: On OS X you have to go to Preferences->Advanced->Miscellaneous and click install command line tools to make the command line tools available after  you installed the app. On other platforms, just start a terminal and type the command.
+
+
 Here we use the value "kindle_dx" for the --output-profile option
 assuming that we want to view the ebook in Kindle DX. You
 should use "kindle" for other (smaller) models of Kindle.
@@ -33,7 +38,7 @@ src2html.pl according to their file extensions:
     .c .cpp .h
     .tt .js .pl .php .t .pod .xml .conf .pm6
     .lzsql .lzapi .grammar .lua .java .sql
+    .go
 
 You can edit the related regex in the Perl source of the src2html.pl
 to add or remove extensions that it will recognize.
-

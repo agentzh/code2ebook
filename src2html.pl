@@ -9,7 +9,7 @@ sub write_src_html ($$);
 sub write_index ($$);
 
 my $dir = shift or die "No source directory specified.\n";
-my $pkg_name = shift or die "No pkg name specified.\n";
+my $pkg_name = shift or die "No book title specified.\n";
 process_dir($dir);
 
 sub process_dir ($) {
@@ -19,7 +19,7 @@ sub process_dir ($) {
     while (my $entity = readdir($dh)) {
         # entity: $entity
         if (-f "$dir/$entity" && !-l "$dir/$entity"
-            && ($entity =~ /^rx_|\.(?:c(?:pp)?|h|tt|js|pl|php|t|pod|xml|conf|pm6?|lzsql|lzapi|grammar|lua|java|sql|nqp|erl|mq4|rl|xs)$/
+            && ($entity =~ /^rx_|\.(?:c(?:pp)?|h|tt|js|pl|php|t|pod|xml|conf|pm6?|lzsql|lzapi|grammar|lua|java|sql|nqp|erl|mq4|rl|xs|go)$/
                 || $entity eq 'README'))
         {
             ## file: $entity
