@@ -19,7 +19,7 @@ sub process_dir ($) {
     while (my $entity = readdir($dh)) {
         # entity: $entity
         if (-f "$dir/$entity" && !-l "$dir/$entity"
-            && ($entity =~ /^rx_|\.(?:c(?:pp)?|h|tt|js|pl|php|t|pod|xml|conf|pm6?|lzsql|lzapi|grammar|lua|java|sql|nqp|erl|mq4|rl|xs|go)$/
+            && ($entity =~ /^rx_|\.(?:c(?:pp)?|h|tt|js|pl|php|t|pod|xml|conf|pm6?|lzsql|lzapi|grammar|lua|java|sql|nqp|erl|mq4|rl|xs|go|py)$/
                 || $entity eq 'README'))
         {
             ## file: $entity
