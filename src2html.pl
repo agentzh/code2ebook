@@ -19,12 +19,14 @@ sub process_dir ($) {
     while (my $entity = readdir($dh)) {
         # entity: $entity
         if (-f "$dir/$entity" && !-l "$dir/$entity"
-            && ($entity =~ /^gdbinit|^rx_|\.(?:c(?:pp)?|h|tt|js|pl|php|[ty]|pod|xml|conf|pm6?|lzsql|lzapi|grammar|lua|java|sql|nqp|erl|mq4|rl|xs|go|py|cc|s|dasc|hpp)$/
-                || $entity eq 'README'))
+            && ($entity =~ /^gdbinit|^rx_|\.(?:c(?:pp)?|h|tt|js|pl|php|[ty]|pod|xml|conf|pm6?|lzsql|lzapi|grammar|lua|java|sql|nqp|erl|mq4|rl|xs|go|py|cc|s|dasc|hpp|patch|txt)$/
+                || $entity eq 'README'
+                || $entity eq 'Makefile'))
         {
             ## file: $entity
             write_src_html($dir, $entity);
             push @items, [file => $entity];
+
         } elsif (-d "$dir/$entity" && $entity !~ /^\./) {
             ## dir: $entity
             my $count = process_dir("$dir/$entity");
