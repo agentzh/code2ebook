@@ -20,6 +20,7 @@ sub extract_line_by_lineno ($$$$);
 my %func_by_files;
 my %global_by_files;
 my %type_by_files;
+my %macro_by_files;
 
 my $dir = shift or die "No source directory specified.\n";
 my $pkg_name = shift or die "No book title specified.\n";
@@ -59,6 +60,9 @@ sub process_tags ($) {
             } elsif ($kind =~ /^[stug]$/) {
                 #warn "adding custom type $name at $file:$lineno ...\n";
                 add_elem_to_hash(\%type_by_files, $file, $rec);
+
+            } elsif ($kind eq 'd') {
+                add_elem_to_hash(\%macro_by_files, $file, $rec);
             }
 
         } else {
@@ -143,7 +147,7 @@ _EOC_
     $tag = $type_by_files{$infile};
     if (defined $tag) {
         $preamble .= <<_EOC_;
- <h4>Custom data types defined</h4>
+ <h4>Data types defined</h4>
 _EOC_
         gen_tag_link_list(\$preamble, $tag, \$src, \@lineno_index);
     }
@@ -152,6 +156,14 @@ _EOC_
     if (defined $tag) {
         $preamble .= <<_EOC_;
  <h4>Functions defined</h4>
+_EOC_
+        gen_tag_link_list(\$preamble, $tag, \$src, \@lineno_index);
+    }
+
+    $tag = $macro_by_files{$infile};
+    if (defined $tag) {
+        $preamble .= <<_EOC_;
+ <h4>Macros defined</h4>
 _EOC_
         gen_tag_link_list(\$preamble, $tag, \$src, \@lineno_index);
     }
@@ -235,8 +247,9 @@ sub gen_tag_link ($$$$) {
     my $name = $tag->[0];
     my $file = $tag->[1];
     my $lineno = $tag->[2];
+    my $kind = $tag->[3];
     my $lang = $tag->[4];
-    if ($lang eq 'C' && $name =~ /^[_A-Z]+$/) {
+    if ($lang eq 'C' && $name =~ /^[_A-Z]+$/ && $kind eq 'f') {
         # possibly a macro-sugared C function; use the whole line
         $name = extract_line_by_lineno($src_ref, $file, $lineno,
                                        $lineno_index);
