@@ -19,6 +19,7 @@ sub extract_line_by_lineno ($$$$);
 #my %tag_by_names;
 my %func_by_files;
 my %global_by_files;
+my %type_by_files;
 
 my $dir = shift or die "No source directory specified.\n";
 my $pkg_name = shift or die "No book title specified.\n";
@@ -52,8 +53,12 @@ sub process_tags ($) {
                 add_elem_to_hash(\%func_by_files, $file, $rec);
 
             } elsif ($kind eq 'v') {
-                warn "adding global variable $name at $file:$lineno ...\n";
+                #warn "adding global variable $name at $file:$lineno ...\n";
                 add_elem_to_hash(\%global_by_files, $file, $rec);
+
+            } elsif ($kind =~ /^[stug]$/) {
+                #warn "adding custom type $name at $file:$lineno ...\n";
+                add_elem_to_hash(\%type_by_files, $file, $rec);
             }
 
         } else {
@@ -131,6 +136,14 @@ sub write_src_html ($$) {
     if (defined $tag) {
         $preamble .= <<_EOC_;
  <h4>Global variables defined</h4>
+_EOC_
+        gen_tag_link_list(\$preamble, $tag, \$src, \@lineno_index);
+    }
+
+    $tag = $type_by_files{$infile};
+    if (defined $tag) {
+        $preamble .= <<_EOC_;
+ <h4>Custom data types defined</h4>
 _EOC_
         gen_tag_link_list(\$preamble, $tag, \$src, \@lineno_index);
     }
