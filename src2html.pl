@@ -62,8 +62,6 @@ END {
     }
 }
 
-#my %tag_by_files;
-#my %tag_by_names;
 my %files;
 my %func_by_files;
 my %global_by_files;
@@ -143,8 +141,6 @@ sub process_tags ($) {
             #warn "name=$name, file=$file, lineno=$lineno, kind=$kind, lang=$lang\n";
             $name =~ s/^\s+|\s+$//g;
             my $rec = [$name, $file, $lineno, $kind, $lang];
-            #add_elem_to_hash(\%tag_by_files, $file, $rec);
-            #add_elem_to_hash(\%tag_by_names, $name, $rec);
             if ($kind eq 'f') {
                 add_elem_to_hash(\%func_by_files, $file, $rec);
 
