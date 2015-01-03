@@ -12,10 +12,10 @@ Table of Contents
         * [src2html.pl](#src2htmlpl)
             * [Usage](#usage)
             * [HTML output features](#html-output-features)
+            * [Source file types recognized](#source-file-types-recognized)
     * [Convert the HTML site to ebooks in various formats](#convert-the-html-site-to-ebooks-in-various-formats)
         * [Generate mobi ebooks for Kindle](#generate-mobi-ebooks-for-kindle)
         * [Generate epub ebooks for iPad/iPhone](#generate-epub-ebooks-for-ipadiphone)
-* [Source file types recognized](#source-file-types-recognized)
 * [Prerequisites](#prerequisites)
 * [Bugs](#bugs)
 * [Author](#author)
@@ -99,6 +99,21 @@ corresponding HTML page.
 
 [Back to TOC](#table-of-contents)
 
+#### Source file types recognized
+
+Right now all the file extension names known to your `ctags` program
+are supported. But `.html` and `.htm` files are always excluded to avoid
+infinite recursion.
+
+You can explicitly include extra source files by specifying the `--include=PATTERN` option,
+as in
+
+```bash
+src2html.pl --include='src/*.blah' --include='*foo*' --color .
+```
+
+[Back to TOC](#table-of-contents)
+
 Convert the HTML site to ebooks in various formats
 --------------------------------------------------
 
@@ -150,22 +165,6 @@ ebook-convert /path/to/my/src/tree/index.html my-src.epub \
 
 In this example, the resulting ebook file is named `my-src.epub` in the
 current working directory, which is readily readable in apps like `iBooks`.
-
-[Back to TOC](#table-of-contents)
-
-Source file types recognized
-============================
-
-Right now all the file extension names known to your `ctags` program
-are supported. But `.html` and `.htm` files are always excluded to avoid
-infinite recursion.
-
-You can explicitly include extra source files by specifying the `--include=PATTERN` option,
-as in
-
-```bash
-src2html.pl --include='src/*.blah' --include='*foo*' --color .
-```
 
 [Back to TOC](#table-of-contents)
 
