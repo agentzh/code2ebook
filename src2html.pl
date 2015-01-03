@@ -101,7 +101,8 @@ if (@extra_files) {
 }
 
 my $tagfile = './src2html.tags';
-shell "ctags -f $tagfile -n -u --fields=kl -R '$dir'";
+shell "ctags --exclude='*.html' --exclude='*.htm' -f $tagfile -n -u "
+    . "--fields=kl -R '$dir'";
 
 my $css;
 {
@@ -135,7 +136,7 @@ sub process_tags ($) {
             }
 
             if (!exists $files{$file} && $lang ne 'HTML') {
-                $files{$file} = $lang;
+                $files{$file} = 1;
             }
 
             #warn "name=$name, file=$file, lineno=$lineno, kind=$kind, lang=$lang\n";
