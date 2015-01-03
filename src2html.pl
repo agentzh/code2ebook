@@ -299,7 +299,8 @@ _EOC_
             s/[ \t]+\n/\n/gs;
             s/\t/    /gs;
             s/\&/\&amp;/g;
-            s/  /&nbsp; /gs;
+            while (s/  /&nbsp; /gs) {}  # use loop here to accomadate
+                                        #  odd numbers of spaces.
             s/</\&lt;/g;
             s/>/\&gt;/g;
             s/"/\&quot;/g;

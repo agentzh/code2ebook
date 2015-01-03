@@ -54,7 +54,8 @@ http://agentzh.org/misc/code/weighttp/
 Note that, for ebook readers lacking colors (like Amazon Kindle), then
 you should not specify the `--color` option for the `src2html.pl` script.
 
-This is essentially an HTML-formatted "ebook" :)
+This is essentially an HTML-formatted "ebook", which is readily browsable in
+a web browser on either a PC or a tablet.
 
 [Back to TOC](#table-of-contents)
 
@@ -196,6 +197,7 @@ Bugs
 
 * If the user hits `Ctrl-C` in the middle of the `src2html.pl` execution,
 the process may hang forever in the `vim` session.
+* `vim` is the dominating performance bottleneck when running the `src2html.pl` tool.
 
 [Back to TOC](#table-of-contents)
 
