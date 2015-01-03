@@ -10,6 +10,8 @@ Table of Contents
 * [Description](#description)
     * [Generate static HTML sites from source trees](#generate-static-html-sites-from-source-trees)
         * [src2html.pl](#src2htmlpl)
+            * [Usage](#usage)
+            * [HTML output features](#html-output-features)
     * [Convert the HTML site to ebooks in various formats](#convert-the-html-site-to-ebooks-in-various-formats)
         * [Generate mobi ebooks for Kindle](#generate-mobi-ebooks-for-kindle)
         * [Generate epub ebooks for iPad/iPhone](#generate-epub-ebooks-for-ipadiphone)
@@ -53,6 +55,10 @@ you should not specify the `--color` option for the `src2html.pl` script.
 
 This is essentially an HTML-formatted "ebook" :)
 
+[Back to TOC](#table-of-contents)
+
+#### Usage
+
 For the full usage of this script, specify the `-h` or `--help` options. One sample output is
 
 ```
@@ -76,6 +82,20 @@ Options:
 
 Copyright (C) Yichun Zhang (agentzh) <agentzh@gmail.com>.
 ```
+
+[Back to TOC](#table-of-contents)
+
+#### HTML output features
+
+This `src2html.pl` script generates pretty HTML pages for each source code file
+featuring
+
+[Back to TOC](#table-of-contents)
+
+1. Summarized data types, macros, global variables, and functions defined in each
+source code file shown as TOC at the beginning of the
+corresponding HTML page.
+2. Colorful syntax highlighting via the `vim` program. (Enabled by the `--color` option).
 
 [Back to TOC](#table-of-contents)
 
