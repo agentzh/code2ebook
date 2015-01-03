@@ -1,0 +1,45 @@
+body {
+    text-align: left;
+    text-align-last: left;
+}
+
+code {
+    font-family: consolas, monospace;
+}
+
+span.Constant {
+    color: DarkGreen;
+}
+
+span.Special {
+    color: #c06000;
+}
+
+span.Comment {
+    color: DarkRed;
+    font-style: italic;
+}
+
+span.Identifier {
+    color: DarkCyan;
+}
+
+span.PreProc {
+    color: DarkMagenta;
+}
+
+span.Statement, span.Type, span.Keyword, span.Repeat, span.Conditional,
+    span.Operator, span.Exception
+{
+    color: DarkBlue;
+}
+
+span.Todo {
+    color: DarkRed;
+    background-color: Gold;
+    font-style: italic;
+}
+
+span.Underlined {
+    text-decoration: underline;
+}

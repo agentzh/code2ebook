@@ -4,6 +4,11 @@
 use strict;
 use warnings;
 
+use FindBin ();
+use File::Temp qw/ :POSIX /;
+use Getopt::Long qw( GetOptions :config no_ignore_case);
+
+sub usage ($);
 sub process_dir ($);
 sub write_src_html ($$);
 sub write_index ($$);
@@ -14,6 +19,44 @@ sub is_tag_array ($);
 sub gen_tag_link_list ($$$$);
 sub gen_tag_link ($$$$);
 sub extract_line_by_lineno ($$$$);
+sub process_color_seqs ($);
+
+my $charset = 'UTF-8';
+
+GetOptions("charset=s",     \$charset,
+           "color",         \(my $use_colors),
+           "h|help",        \(my $help))
+   or usage(1);
+
+if ($help) {
+    usage(0);
+}
+
+my ($tmpfile, $vim_cmd_prefix);
+if ($use_colors) {
+
+    my $vimscript = "$FindBin::Bin/syntax-highlight.vim";
+    $tmpfile = tmpnam();
+
+    my @vim_cmds = (
+        'syntax on',
+        "source $vimscript",
+        'visual',
+        qq{call AnsiHighlight("$tmpfile")},
+        'q',
+    );
+
+    $vim_cmd_prefix =
+        "vim -E -X -R -i NONE -c '" . join(" | ", @vim_cmds). "' -- ";
+}
+
+END {
+    if (defined $tmpfile && -f $tmpfile) {
+        #warn "removing tmp file $tmpfile";
+        unlink $tmpfile
+            or die "failed to remove file $tmpfile: $!\n";
+    }
+}
 
 #my %tag_by_files;
 #my %tag_by_names;
@@ -24,12 +67,24 @@ my %macro_by_files;
 
 my $dir = shift or die "No source directory specified.\n";
 my $pkg_name = shift or die "No book title specified.\n";
+
 shell "ctags -n -u --fields=+l --c-kinds=+l -R '$dir'";
+
+my $css;
+{
+    my $cssfile = "$FindBin::Bin/colorful.css";
+    open my $in, $cssfile
+        or die "cannot open $cssfile for reading: $!\n";
+    $css = do { local $/; <$in> };
+    close $in;
+}
+
 process_tags("./tags");
 process_dir($dir);
 
 sub shell ($) {
     my $cmd = shift;
+    #warn "command: $cmd";
     system($cmd) == 0
         or die qq{failed to run command "$cmd": $!\n};
 }
@@ -122,8 +177,19 @@ sub write_src_html ($$) {
     my $infile = "$dir/$entity";
     #warn "Reading source file $infile\n";
 
-    open my $in, $infile or
-        die "Can't open $infile for reading: $!\n";
+    my $infile2;
+
+    if ($use_colors) {
+        shell "$vim_cmd_prefix $infile < /dev/tty > /dev/null";
+        $infile2 = $tmpfile;
+
+    } else {
+        $infile2 = $infile;
+    }
+
+    open my $in, $infile2 or
+        die "Can't open $infile2 for reading: $!\n";
+
     my @lineno_index;
     my $src = '';
     my $pos = 0;
@@ -176,19 +242,25 @@ _EOC_
 
     if ($src =~ /PRETEND TO BE IN Parse::RecDescent NAMESPACE/s) {
         $src = 'Omitted parser file generated automatically by Parse::RecDescent';
+
     } else {
         for ($src) {
             s/\n\n\n+/\n\n/gs;
             s/[ \t]+\n/\n/gs;
             s/\t/    /gs;
             s/\&/\&amp;/g;
-            s/ /&nbsp;/gs;
+            s/  /&nbsp; /gs;
             s/</\&lt;/g;
             s/>/\&gt;/g;
             s/"/\&quot;/g;
-            s{_SRC2KINDLE_L(\d+)_}{<a id="_L$1"></a>}smg;
+            # the &#x200c; noise is to work-around a bug in epub + ibooks.
+            s{_SRC2KINDLE_L(\d+)_}{<a id="_L$1">&#x200c;</a>}smg;
             s/\n/<br\/>/g;
         }
+    }
+
+    if ($use_colors) {
+        process_color_seqs(\$src);
     }
 
     my $outfile = "$dir/$entity.html";
@@ -198,6 +270,10 @@ _EOC_
 <html>
  <head>
   <title>$infile - $pkg_name</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <style>
+$css
+  </style>
  </head>
  <body>
   <h3>$infile - $pkg_name</h3>
@@ -338,3 +414,57 @@ _EOC_
     warn "Wrote $outfile\n";
 }
 
+sub process_color_seqs ($) {
+    my ($src_ref) = @_;
+
+    my $open;
+
+    $$src_ref =~ s#\x1b\[(\w*);#
+        my $name = $1;
+        my $out = '';
+
+        if ($open) {
+            if (!$name || $name eq 'Normal') {
+                undef $open;
+                "</span>";
+
+            } else {
+                qq{</span><span class="$name">};
+            }
+
+        } else {
+            if (!$name || $name eq 'Normal') {
+                "";
+
+            } else {
+                $open = 1;
+                qq{<span class="$name">};
+            }
+        }
+     #ge;
+
+     if ($open) {
+         $$src_ref .= "</span>";
+     }
+}
+
+sub usage ($) {
+    my $rc = shift;
+    my $msg = <<_EOC_;
+src2html.pl [options] directory
+
+Options:
+    --charset charset     Specify the charset used by the HTML
+                          outputs. Default to UTF-8.
+    --color               Use full colors in the HTMTL outputs.
+    -h
+    --help                Print this help.
+_EOC_
+    if ($rc == 0) {
+        print $msg;
+        exit(0);
+    }
+
+    warn $msg;
+    exit($rc);
+}

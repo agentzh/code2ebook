@@ -5,23 +5,33 @@ directly from arbitrary source trees.
 
 The src2html.pl script can generate an HTML tree from the source tree that you specify, for example:
 
-    export PATH=/path/to/src2kindle:$PATH
-    src2html.pl /path/to/my/src/tree/ 'Your Book Title'
+```bash
+export PATH=/path/to/src2kindle:$PATH
+src2html.pl --color /path/to/my/src/tree/ 'Your Book Title'
+```
+
+The resulting HTML site can be viewed in a web browser. And the entry
+point is `/path/to/my/src/tree/index.html`.
+
+One sample site for the weighttp source tree can be browsed here:
+
+http://agentzh.org/misc/code/weighttp/
 
 And then you can generate a mobi file using Calibre
 ( http://calibre-ebook.com/ ):
 
-    ebook-convert /path/to/my/src/tree/index.html my-src.mobi \
+```bash
+ebook-convert /path/to/my/src/tree/index.html my-src.mobi \
     --output-profile kindle_dx --no-inline-toc \
     --title "Your Book Title" --publisher 'Your Name' \
     --language en --authors 'Your Author Name'
+```
 
 Maybe you could take a coffee break :)
 
-Note: On OS X you have to go to Preferences->Advanced->Miscellaneous and click install command line tools to make the command line tools available after  you installed the app. On other platforms, just start a terminal and type the command.
+Note: On OS X you have to go to `Preferences->Advanced->Miscellaneous` and click install command line tools to make the command line tools available after you installed the app. On other platforms, just start a terminal and type the command.
 
-
-Here we use the value "kindle_dx" for the --output-profile option
+Here we use the value "kindle_dx" for the `--output-profile` option
 assuming that we want to view the ebook in Kindle DX. You
 should use "kindle" for other (smaller) models of Kindle.
 
@@ -42,3 +52,4 @@ src2html.pl according to their file extensions:
 
 You can edit the related regex in the Perl source of the src2html.pl
 to add or remove extensions that it will recognize.
+
