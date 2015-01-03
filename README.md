@@ -11,6 +11,7 @@ Table of Contents
     * [Generate an HTML site from the source tree](#generate-an-html-site-from-the-source-tree)
     * [Convert the HTML site to ebook files in various formats](#convert-the-html-site-to-ebook-files-in-various-formats)
 * [Source file types recognized](#source-file-types-recognized)
+* [Prerequisites](#prerequisites)
 * [Author](#author)
 * [Copyright and License](#copyright-and-license)
 
@@ -25,7 +26,9 @@ directly from arbitrary source trees.
 Generate an HTML site from the source tree
 ------------------------------------------
 
-The src2html.pl script can generate an HTML tree from the source tree that you specify, for example:
+Before you begin, ensure you have installed all the [prerequisites](#prerequisites).
+
+The `src2html.pl` script can generate an HTML tree from the source tree that you specify, for example:
 
 ```bash
 export PATH=/path/to/src2kindle:$PATH
@@ -89,6 +92,28 @@ src2html.pl according to their file extensions:
 
 You can edit the related regex in the Perl source of the src2html.pl
 to add or remove extensions that it will recognize.
+
+[Back to TOC](#table-of-contents)
+
+Prerequisites
+=============
+
+You need to install the following dependencies of a recent version:
+
+* [Exuberant Ctags](http://ctags.sourceforge.net/)
+
+should be readily available in almost all the Linux
+distributions by simply installing the `ctags` package.
+* [Vim](http://www.vim.org/)
+
+should be readily available in almost all the Linux distributions
+by simply installing the `vim` package.
+* [perl](http://www.perl.org/)
+
+should be readily available in almost all the Linux
+distributions by simply installing the `perl` package.
+
+All these components are very common programs in the \*NIX world.
 
 [Back to TOC](#table-of-contents)
 
