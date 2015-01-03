@@ -102,7 +102,8 @@ if (@extra_files) {
     #warn "$is_included_pattern";
 }
 
-shell "ctags -n -u --fields=+l --c-kinds=+l -R '$dir'";
+my $tagfile = './src2html.tags';
+shell "ctags -f $tagfile -n -u --fields=kl -R '$dir'";
 
 my $css;
 {
@@ -113,7 +114,7 @@ my $css;
     close $in;
 }
 
-process_tags("./tags");
+process_tags($tagfile);
 process_dir($dir);
 
 sub shell ($) {
