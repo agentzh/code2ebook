@@ -1,7 +1,29 @@
-Want to browse big source code trees in your Kindle?
+Name
+====
 
-This project provides utilities to help generating .mobi ebook files
+code2ebook - Generate ebooks in various formats from source trees in various programming languages
+
+Table of Contents
+=================
+
+* [Name](#name)
+* [Description](#description)
+    * [Generate an HTML site from the source tree](#generate-an-html-site-from-the-source-tree)
+    * [Convert the HTML site to ebook files in various formats](#convert-the-html-site-to-ebook-files-in-various-formats)
+* [Source file types recognized](#source-file-types-recognized)
+* [Author](#author)
+* [Copyright and License](#copyright-and-license)
+
+Description
+===========
+
+Want to browse big source code trees in your Kindle or iPad?
+
+This project provides utilities to help generating pretty ebook files in various formats
 directly from arbitrary source trees.
+
+Generate an HTML site from the source tree
+------------------------------------------
 
 The src2html.pl script can generate an HTML tree from the source tree that you specify, for example:
 
@@ -17,8 +39,18 @@ One sample site for the weighttp source tree can be browsed here:
 
 http://agentzh.org/misc/code/weighttp/
 
-And then you can generate a mobi file using Calibre
-( http://calibre-ebook.com/ ):
+Note that, for ebook readers lacking colors (like Amazon Kindle), then
+you should not specify the `--color` option for the `src2html.pl` script.
+
+This is essentially an HTML-formatted "ebook" :)
+
+Convert the HTML site to ebook files in various formats
+-------------------------------------------------------
+
+Now that we have the HTML-formatted "ebook", we can generate ebooks in other formats like `.mobi` and `.epub` using Calibre
+(http://calibre-ebook.com/).
+
+For example, to generate a `.mobi` file for Kindle DX:
 
 ```bash
 ebook-convert /path/to/my/src/tree/index.html my-src.mobi \
@@ -40,7 +72,12 @@ documentation for full usage:
 
     http://calibre-ebook.com/user_manual/cli/ebook-convert.html
 
-Well you need both perl and python ;)
+Well you need both Perl and Python ;)
+
+[Back to TOC](#table-of-contents)
+
+Source file types recognized
+============================
 
 Currently only the following files will be searched by
 src2html.pl according to their file extensions:
@@ -52,4 +89,32 @@ src2html.pl according to their file extensions:
 
 You can edit the related regex in the Perl source of the src2html.pl
 to add or remove extensions that it will recognize.
+
+[Back to TOC](#table-of-contents)
+
+Author
+======
+
+Yichun "agentzh" Zhang (章亦春) <agentzh@gmail.com>, CloudFlare Inc.
+
+[Back to TOC](#table-of-contents)
+
+Copyright and License
+=====================
+
+This module is licensed under the BSD license.
+
+Copyright (C) 2011-2014, by Yichun "agentzh" Zhang, CloudFlare Inc.
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+[Back to TOC](#table-of-contents)
 
