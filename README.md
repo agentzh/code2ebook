@@ -8,10 +8,10 @@ Table of Contents
 
 * [Name](#name)
 * [Description](#description)
-    * [Generate an HTML site from the source tree](#generate-an-html-site-from-the-source-tree)
-    * [Convert the HTML site to ebook files in various formats](#convert-the-html-site-to-ebook-files-in-various-formats)
-        * [Generate mobi-formatted ebook for Kindle](#generate-mobi-formatted-ebook-for-kindle)
-        * [Generate epub-formatted ebook for iPad/iPhone](#generate-epub-formatted-ebook-for-ipadiphone)
+    * [Generate static HTML sites from source trees](#generate-static-html-sites-from-source-trees)
+    * [Convert the HTML site to ebooks in various formats](#convert-the-html-site-to-ebooks-in-various-formats)
+        * [Generate mobi ebooks for Kindle](#generate-mobi-ebooks-for-kindle)
+        * [Generate epub ebooks for iPad/iPhone](#generate-epub-ebooks-for-ipadiphone)
 * [Source file types recognized](#source-file-types-recognized)
 * [Prerequisites](#prerequisites)
 * [Author](#author)
@@ -25,8 +25,8 @@ Want to browse big source code trees in your Kindle or iPad?
 This project provides utilities to help generating pretty ebook files in various formats
 directly from arbitrary source trees.
 
-Generate an HTML site from the source tree
-------------------------------------------
+Generate static HTML sites from source trees
+--------------------------------------------
 
 Before you begin, ensure you have installed all the [prerequisites](#prerequisites).
 
@@ -49,15 +49,14 @@ you should not specify the `--color` option for the `src2html.pl` script.
 
 This is essentially an HTML-formatted "ebook" :)
 
-Convert the HTML site to ebook files in various formats
--------------------------------------------------------
+Convert the HTML site to ebooks in various formats
+--------------------------------------------------
 
-Now that we have the HTML-formatted "ebook", we can generate ebooks in other formats like `.mobi` and `.epub` using Calibre
-(http://calibre-ebook.com/).
+Now that we have the HTML-formatted "ebook", we can generate ebooks in other formats like `.mobi` and `.epub` using [Calibre](http://calibre-ebook.com/).
 
 [Back to TOC](#table-of-contents)
 
-### Generate mobi-formatted ebook for Kindle
+### Generate mobi ebooks for Kindle
 
 For example, to generate a `.mobi` file for Kindle DX:
 
@@ -86,7 +85,7 @@ Well you need both Perl and Python ;)
 
 [Back to TOC](#table-of-contents)
 
-### Generate epub-formatted ebook for iPad/iPhone
+### Generate epub ebooks for iPad/iPhone
 
 Below is a simple sample command to generate the `.epub` ebook from the
 HTML site:
@@ -133,7 +132,7 @@ distributions by simply installing the `ctags` package.
 
 should be readily available in almost all the Linux distributions
 by simply installing the `vim` package.
-* [perl](http://www.perl.org/)
+* [Perl 5](http://www.perl.org/)
 
 should be readily available in almost all the Linux
 distributions by simply installing the `perl` package.
