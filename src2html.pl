@@ -100,6 +100,7 @@ if (@extra_files) {
     #warn "$is_included_pattern";
 }
 
+warn "processing \"$dir\" with ctags...\n";
 my $tagfile = './src2html.tags';
 shell "ctags --exclude='*.html' --exclude='*.htm' -f $tagfile -n -u "
     . "--fields=kl -R '$dir'";
