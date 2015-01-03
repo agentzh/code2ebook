@@ -33,7 +33,7 @@ Before you begin, ensure you have installed all the [prerequisites](#prerequisit
 The `src2html.pl` script can generate an HTML tree from the source tree that you specify, for example:
 
 ```bash
-export PATH=/path/to/src2kindle:$PATH
+export PATH=/path/to/code2ebook$PATH
 src2html.pl --color /path/to/my/src/tree/ 'Your Book Title'
 ```
 
