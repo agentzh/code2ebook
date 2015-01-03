@@ -9,11 +9,13 @@ Table of Contents
 * [Name](#name)
 * [Description](#description)
     * [Generate static HTML sites from source trees](#generate-static-html-sites-from-source-trees)
+        * [src2html.pl](#src2htmlpl)
     * [Convert the HTML site to ebooks in various formats](#convert-the-html-site-to-ebooks-in-various-formats)
         * [Generate mobi ebooks for Kindle](#generate-mobi-ebooks-for-kindle)
         * [Generate epub ebooks for iPad/iPhone](#generate-epub-ebooks-for-ipadiphone)
 * [Source file types recognized](#source-file-types-recognized)
 * [Prerequisites](#prerequisites)
+* [Bugs](#bugs)
 * [Author](#author)
 * [Copyright and License](#copyright-and-license)
 
@@ -29,6 +31,8 @@ Generate static HTML sites from source trees
 --------------------------------------------
 
 Before you begin, ensure you have installed all the [prerequisites](#prerequisites).
+
+### src2html.pl
 
 The `src2html.pl` script can generate an HTML tree from the source tree that you specify, for example:
 
@@ -48,6 +52,32 @@ Note that, for ebook readers lacking colors (like Amazon Kindle), then
 you should not specify the `--color` option for the `src2html.pl` script.
 
 This is essentially an HTML-formatted "ebook" :)
+
+For the full usage of this script, specify the `-h` or `--help` options. One sample output is
+
+```
+src2html.pl [options] dir
+
+Options:
+    --charset CHARSET     Specify the charset used by the HTML
+                          outputs. Default to UTF-8.
+
+    -c
+    --color               Use full colors in the HTMTL outputs.
+
+    -h
+    --help                Print this help.
+
+    -i PATTERN
+    --include PATTERN     Specify the pattern for extra source code file names
+                          to include in the HTML output. Wildcards
+                          like * and [] are supported. And multiple occurances
+                          of this option are allowed.
+
+Copyright (C) Yichun Zhang (agentzh) <agentzh@gmail.com>.
+```
+
+[Back to TOC](#table-of-contents)
 
 Convert the HTML site to ebooks in various formats
 --------------------------------------------------
@@ -106,16 +136,16 @@ current working directory, which is readily readable in apps like `iBooks`.
 Source file types recognized
 ============================
 
-Currently only the following files will be searched by
-src2html.pl according to their file extensions:
+Right now all the file extension names known to your `ctags` program
+are supported. But `.html` and `.htm` files are always excluded to avoid
+infinite recursion.
 
-    .c .cpp .h
-    .tt .js .pl .php .t .pod .xml .conf .pm6
-    .lzsql .lzapi .grammar .lua .java .sql
-    .go
+You can explicitly include extra source files by specifying the `--include=PATTERN` option,
+as in
 
-You can edit the related regex in the Perl source of the src2html.pl
-to add or remove extensions that it will recognize.
+```bash
+src2html.pl --include='src/*.blah' --include='*foo*' --color .
+```
 
 [Back to TOC](#table-of-contents)
 
@@ -138,6 +168,14 @@ should be readily available in almost all the Linux
 distributions by simply installing the `perl` package.
 
 All these components are very common programs in the \*NIX world.
+
+[Back to TOC](#table-of-contents)
+
+Bugs
+====
+
+* If the user hits `Ctrl-C` in the middle of the `src2html.pl` execution,
+the process may hang forever in the `vim` session.
 
 [Back to TOC](#table-of-contents)
 

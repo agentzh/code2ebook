@@ -20,12 +20,16 @@ sub gen_tag_link_list ($$$$);
 sub gen_tag_link ($$$$);
 sub extract_line_by_lineno ($$$$);
 sub process_color_seqs ($);
+sub is_included_file ($);
 
 my $charset = 'UTF-8';
 
+my @extra_files;
+
 GetOptions("charset=s",     \$charset,
-           "color",         \(my $use_colors),
-           "h|help",        \(my $help))
+           "c|color",       \(my $use_colors),
+           "h|help",        \(my $help),
+           "i|include=s@",  \@extra_files)
    or usage(1);
 
 if ($help) {
@@ -60,6 +64,7 @@ END {
 
 #my %tag_by_files;
 #my %tag_by_names;
+my %files;
 my %func_by_files;
 my %global_by_files;
 my %type_by_files;
@@ -67,6 +72,35 @@ my %macro_by_files;
 
 my $dir = shift or die "No source directory specified.\n";
 my $pkg_name = shift or die "No book title specified.\n";
+
+my $cmd = "ctags --list-maps=all";
+open my $in, "$cmd|"
+    or die "Cannot run command $cmd: $!\n";
+while (<$in>) {
+    my @exts = split /\s+/;
+    shift @exts;
+    for my $ext (@exts) {
+        if ($ext !~ /\bhtml?$/i) {
+            push @extra_files, @exts;
+        }
+    }
+}
+close $in;
+
+my $is_included_pattern;
+
+if (@extra_files) {
+    for my $f (@extra_files) {
+        $f =~ s/\./\\./g;
+        $f =~ s/\*/.*?/g;
+        if ($f =~ /\|/) {
+            $f = "(?:$f)";
+        }
+    }
+    $is_included_pattern = join '|', @extra_files;
+    $is_included_pattern = qr/^(?:$is_included_pattern)$/;
+    #warn "$is_included_pattern";
+}
 
 shell "ctags -n -u --fields=+l --c-kinds=+l -R '$dir'";
 
@@ -100,6 +134,11 @@ sub process_tags ($) {
             if ($lang eq 'C++') {
                 $lang = 'C';
             }
+
+            if (!exists $files{$file} && $lang ne 'HTML') {
+                $files{$file} = $lang;
+            }
+
             #warn "name=$name, file=$file, lineno=$lineno, kind=$kind, lang=$lang\n";
             $name =~ s/^\s+|\s+$//g;
             my $rec = [$name, $file, $lineno, $kind, $lang];
@@ -146,17 +185,18 @@ sub process_dir ($) {
     opendir my $dh, $dir or die "Can't open $dir for reading: $!\n";
     my @items;
     while (my $entity = readdir($dh)) {
+        next if $entity =~ /(?:\.(?:swp|swo|bak)|~)$/;
         # entity: $entity
-        if (-f "$dir/$entity" && !-l "$dir/$entity"
-            && ($entity =~ /^gdbinit|^rx_|\.(?:c(?:pp)?|h|tt|js|pl|php|[ty]|pod|xml|conf|pm6?|lzsql|lzapi|grammar|lua|java|sql|nqp|erl|mq4|rl|xs|go|py|cc|s|dasc|hpp|patch|txt)$/
-                || $entity eq 'README'
-                || $entity eq 'Makefile'))
-        {
-            ## file: $entity
+        #warn "entity: $entity";
+        my $fname = "$dir/$entity";
+        if (exists $files{$fname} || is_included_file($fname)) {
+            #warn "Processing file $fname...";
             write_src_html($dir, $entity);
             push @items, [file => $entity];
+            next;
+        }
 
-        } elsif (-d "$dir/$entity" && $entity !~ /^\./) {
+        if (-d "$dir/$entity" && $entity !~ /^\./) {
             ## dir: $entity
             my $count = process_dir("$dir/$entity");
             if ($count) {
@@ -169,6 +209,16 @@ sub process_dir ($) {
         write_index($dir, \@items);
     }
     return scalar @items;
+}
+
+sub is_included_file ($) {
+    my $file = shift;
+    if (defined $is_included_pattern && -f $file && !-l $file) {
+        #warn "testing $file against $is_included_pattern";
+        return $file =~ $is_included_pattern;
+    }
+    #warn "no extra files defined";
+    return undef;
 }
 
 sub write_src_html ($$) {
@@ -450,15 +500,26 @@ sub process_color_seqs ($) {
 
 sub usage ($) {
     my $rc = shift;
-    my $msg = <<_EOC_;
-src2html.pl [options] directory
+    my $msg = <<'_EOC_';
+src2html.pl [options] dir
 
 Options:
-    --charset charset     Specify the charset used by the HTML
+    --charset CHARSET     Specify the charset used by the HTML
                           outputs. Default to UTF-8.
+
+    -c
     --color               Use full colors in the HTMTL outputs.
+
     -h
     --help                Print this help.
+
+    -i PATTERN
+    --include PATTERN     Specify the pattern for extra source code file names
+                          to include in the HTML output. Wildcards
+                          like * and [] are supported. And multiple occurances
+                          of this option are allowed.
+
+Copyright (C) Yichun Zhang (agentzh) <agentzh@gmail.com>.
 _EOC_
     if ($rc == 0) {
         print $msg;
