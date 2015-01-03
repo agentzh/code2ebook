@@ -10,6 +10,8 @@ Table of Contents
 * [Description](#description)
     * [Generate an HTML site from the source tree](#generate-an-html-site-from-the-source-tree)
     * [Convert the HTML site to ebook files in various formats](#convert-the-html-site-to-ebook-files-in-various-formats)
+        * [Generate mobi-formatted ebook for Kindle](#generate-mobi-formatted-ebook-for-kindle)
+        * [Generate epub-formatted ebook for iPad/iPhone](#generate-epub-formatted-ebook-for-ipadiphone)
 * [Source file types recognized](#source-file-types-recognized)
 * [Prerequisites](#prerequisites)
 * [Author](#author)
@@ -53,6 +55,10 @@ Convert the HTML site to ebook files in various formats
 Now that we have the HTML-formatted "ebook", we can generate ebooks in other formats like `.mobi` and `.epub` using Calibre
 (http://calibre-ebook.com/).
 
+[Back to TOC](#table-of-contents)
+
+### Generate mobi-formatted ebook for Kindle
+
 For example, to generate a `.mobi` file for Kindle DX:
 
 ```bash
@@ -62,7 +68,8 @@ ebook-convert /path/to/my/src/tree/index.html my-src.mobi \
     --language en --authors 'Your Author Name'
 ```
 
-Maybe you could take a coffee break :)
+In this example, the resulting ebook file is named `my-src.mobi` in the
+current working directory.
 
 Note: On OS X you have to go to `Preferences->Advanced->Miscellaneous` and click install command line tools to make the command line tools available after you installed the app. On other platforms, just start a terminal and type the command.
 
@@ -73,9 +80,27 @@ should use "kindle" for other (smaller) models of Kindle.
 The ebook-convert utility is provided by Calibre, see its online
 documentation for full usage:
 
-    http://calibre-ebook.com/user_manual/cli/ebook-convert.html
+http://calibre-ebook.com/user_manual/cli/ebook-convert.html
 
 Well you need both Perl and Python ;)
+
+[Back to TOC](#table-of-contents)
+
+### Generate epub-formatted ebook for iPad/iPhone
+
+Below is a simple sample command to generate the `.epub` ebook from the
+HTML site:
+
+```bash
+ebook-convert /path/to/my/src/tree/index.html my-src.epub \
+    --output-profile ipad3 \
+    --no-default-epub-cover \
+    --title "Your Book Title" --publisher 'Your Name' \
+    --language en --authors 'Your Author Name'
+```
+
+In this example, the resulting ebook file is named `my-src.epub` in the
+current working directory, which is readily readable in apps like `iBooks`.
 
 [Back to TOC](#table-of-contents)
 
