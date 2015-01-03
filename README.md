@@ -18,6 +18,7 @@ Table of Contents
         * [Generate epub ebooks for iPad/iPhone](#generate-epub-ebooks-for-ipadiphone)
 * [Prerequisites](#prerequisites)
 * [Bugs](#bugs)
+* [TODO](#todo)
 * [Author](#author)
 * [Copyright and License](#copyright-and-license)
 
@@ -195,6 +196,15 @@ Bugs
 
 * If the user hits `Ctrl-C` in the middle of the `src2html.pl` execution,
 the process may hang forever in the `vim` session.
+
+[Back to TOC](#table-of-contents)
+
+TODO
+====
+
+* Add support for the `--exclude=PATTERN` options to the [src2html.pl](#src2htmlpl) tool.
+* Add cross-referencing support for data types, macros, global variables,
+and functions inside the source code lines (as in the [LXR Cross Referencer](http://sourceforge.net/projects/lxr/)).
 
 [Back to TOC](#table-of-contents)
 
