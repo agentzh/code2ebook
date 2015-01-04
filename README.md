@@ -34,6 +34,7 @@ Table of Contents
 * [TODO](#todo)
 * [Author](#author)
 * [Copyright and License](#copyright-and-license)
+* [See Also](#see-also)
 
 Description
 ===========
@@ -117,7 +118,8 @@ corresponding HTML page.
 2. Colorful syntax highlighting via the `vim` program. (Enabled by the `--color` option).
 3. Cross-reference links to the definition lines of the referenced data types,
 macros, global variables, and functions across all the source code lines
-(similar to the [LXR Cross Referencer](http://sourceforge.net/projects/lxr/)).
+(similar to the [LXR Cross Referencer](http://sourceforge.net/projects/lxr/)
+but ours is much more lightweight).
 
 [Back to TOC](#table-of-contents)
 
@@ -197,15 +199,15 @@ Prerequisites
 
 You need to install the following dependencies of a recent version:
 
-* [Exuberant Ctags](http://ctags.sourceforge.net/)
+* [Exuberant ctags](http://ctags.sourceforge.net/)
 
 should be readily available in almost all the Linux
 distributions by simply installing the `ctags` package.
-* [Vim](http://www.vim.org/)
+* [vim](http://www.vim.org/)
 
 should be readily available in almost all the Linux distributions
 by simply installing the `vim` package.
-* [Perl 5](http://www.perl.org/)
+* [perl 5](http://www.perl.org/)
 
 should be readily available in almost all the Linux
 distributions by simply installing the `perl` package.
@@ -356,6 +358,15 @@ Redistribution and use in source and binary forms, with or without modification,
 * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+[Back to TOC](#table-of-contents)
+
+See Also
+=========
+
+* [LXR Cross Referencer](http://sourceforge.net/projects/lxr/)
+* [Exuberant ctags](http://ctags.sourceforge.net/)
+* [vim](http://www.vim.org/)
 
 [Back to TOC](#table-of-contents)
 
