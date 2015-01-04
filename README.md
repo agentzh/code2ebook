@@ -17,7 +17,7 @@ Table of Contents
         * [Generate MOBI ebooks for Kindle](#generate-mobi-ebooks-for-kindle)
         * [Generate EPUB ebooks for iPad/iPhone](#generate-epub-ebooks-for-ipadiphone)
 * [Prerequisites](#prerequisites)
-* [Samples](#samples)
+* [Sample eBooks](#sample-ebooks)
     * [weighttp](#weighttp)
         * [HTML for weighttp source tree](#html-for-weighttp-source-tree)
         * [EPUB for weighttp source tree](#epub-for-weighttp-source-tree)
@@ -214,8 +214,8 @@ All these components are very common programs in the \*NIX world.
 
 [Back to TOC](#table-of-contents)
 
-Samples
-=======
+Sample eBooks
+=============
 
 Below provides some sample ebooks generated from real-world opensource projects like [weighttp](#weighttp), [LuaJIT](#luajit), and [Nginx](#nginx).
 
