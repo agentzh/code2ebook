@@ -26,6 +26,10 @@ Table of Contents
         * [HTML for LuaJIT source tree](#html-for-luajit-source-tree)
         * [EPUB for LuaJIT source tree](#epub-for-luajit-source-tree)
         * [MOBI for LuaJIT source tree](#mobi-for-luajit-source-tree)
+    * [Nginx](#nginx)
+        * [HTML for Nginx source tree](#html-for-nginx-source-tree)
+        * [EPUB for Nginx source tree](#epub-for-nginx-source-tree)
+        * [MOBI for Nginx source tree](#mobi-for-nginx-source-tree)
 * [Bugs](#bugs)
 * [TODO](#todo)
 * [Author](#author)
@@ -218,6 +222,9 @@ Samples
 weighttp
 --------
 
+[weighttp](http://redmine.lighttpd.net/projects/weighttp/wiki)
+is a lightweight and small benchmarking tool for webservers.
+
 [Back to TOC](#table-of-contents)
 
 ### HTML for weighttp source tree
@@ -247,11 +254,14 @@ http://agentzh.org/misc/code/weighttp/weighttp.mobi
 LuaJIT
 ------
 
+[LuaJIT](http://luajit.org/luajit.html) is a Just-In-Time Compiler (JIT) for the Lua programming language.
+Lua is a powerful, dynamic and light-weight programming language.
+
 [Back to TOC](#table-of-contents)
 
 ### HTML for LuaJIT source tree
 
-The HTML site generated from the weighttp source code can be browsed here:
+The HTML site generated from the LuaJIT source code can be browsed here:
 
 http://agentzh.org/misc/code/luajit2/
 
@@ -270,6 +280,39 @@ http://agentzh.org/misc/code/luajit2/luajit-2.0-src.epub
 The corresponding MOBI ebook can be downloaded from below:
 
 http://agentzh.org/misc/code/luajit2/luajit-2.0-src.mobi
+
+[Back to TOC](#table-of-contents)
+
+Nginx
+-----
+
+[Nginx](http://nginx.org/) is an open source reverse proxy server for HTTP, HTTPS, SMTP, POP3,
+and IMAP protocols, as well as a load balancer, HTTP cache, and
+a web server (origin server).
+
+[Back to TOC](#table-of-contents)
+
+### HTML for Nginx source tree
+
+The HTML site generated from the Nginx source code can be browsed here:
+
+http://agentzh.org/misc/code/nginx/
+
+[Back to TOC](#table-of-contents)
+
+### EPUB for Nginx source tree
+
+The corresponding EPUB ebook can be downloaded from below:
+
+http://agentzh.org/misc/code/nginx/nginx-1.7.9.epub
+
+[Back to TOC](#table-of-contents)
+
+### MOBI for Nginx source tree
+
+The corresponding MOBI ebook can be downloaded from below:
+
+http://agentzh.org/misc/code/nginx/nginx-1.7.9.mobi
 
 [Back to TOC](#table-of-contents)
 
