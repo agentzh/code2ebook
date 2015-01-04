@@ -30,12 +30,11 @@ sub is_included_file ($);
 
 my $charset = 'UTF-8';
 
-my @extra_files;
-
 GetOptions("charset=s",         \$charset,
            "c|color",           \(my $use_colors),
+           "e|exclude=s@",      \(my $exclude_files),
            "h|help",            \(my $help),
-           "i|include=s@",      \@extra_files,
+           "i|include=s@",      \(my $include_files),
            "x|cross-reference", \(my $use_cross_ref))
    or usage(1);
 
@@ -92,6 +91,10 @@ $SIG{INT} = sub {
 my $src_root = shift or die "No source directory specified.\n";
 my $pkg_name = shift or die "No book title specified.\n";
 
+if (!defined $include_files) {
+    $include_files = [];
+}
+
 my $cmd = "ctags --list-maps=all";
 open my $in, "$cmd|"
     or die "Cannot run command $cmd: $!\n";
@@ -100,7 +103,7 @@ while (<$in>) {
     shift @exts;
     for my $ext (@exts) {
         if ($ext !~ /\bhtml?$/i) {
-            push @extra_files, @exts;
+            push @$include_files, @exts;
         }
     }
 }
@@ -108,17 +111,32 @@ close $in;
 
 my ($is_included_pattern, $cross_ref_pattern);
 
-if (@extra_files) {
-    for my $f (@extra_files) {
+if (@$include_files) {
+    for my $f (@$include_files) {
         $f =~ s/\./\\./g;
         $f =~ s/\*/.*?/g;
         if ($f =~ /\|/) {
             $f = "(?:$f)";
         }
     }
-    $is_included_pattern = join '|', @extra_files;
-    $is_included_pattern = qr/^(?:$is_included_pattern)$/;
+    my $s = join '|', @$include_files;
+    $is_included_pattern = qr/^(?:$s)$/;
     #warn "$is_included_pattern";
+}
+
+my $is_excluded_pattern;
+
+if ($exclude_files && @$exclude_files) {
+    for my $f (@$exclude_files) {
+        $f =~ s/\./\\./g;
+        $f =~ s/\*/.*?/g;
+        if ($f =~ /\|/) {
+            $f = "(?:$f)";
+        }
+    }
+    my $s = join '|', @$exclude_files;
+    $is_excluded_pattern = qr/^(?:$s)$/;
+    #warn "$is_excluded_pattern";
 }
 
 $src_root = File::Spec->abs2rel($src_root);
@@ -267,10 +285,12 @@ sub process_dir ($) {
         #warn "entity: $entity";
         my $fname = $dir eq '.' ? $entity : "$dir/$entity";
         if (exists $files{$fname} || is_included_file($fname)) {
-            #warn "Processing file $fname...";
-            write_src_html($dir, $entity, $rel_path_cache);
-            push @items, [file => $entity];
-            next;
+            if (!is_excluded_file($fname)) {
+                #warn "Processing file $fname...";
+                write_src_html($dir, $entity, $rel_path_cache);
+                push @items, [file => $entity];
+                next;
+            }
         }
 
         if (-d $fname && $entity !~ /^\./) {
@@ -289,6 +309,11 @@ sub process_dir ($) {
     }
 
     return scalar @items;
+}
+
+sub is_excluded_file ($) {
+    my $file = shift;
+    defined $is_excluded_pattern ? $file =~ $is_excluded_pattern : undef;
 }
 
 sub is_included_file ($) {
@@ -722,7 +747,7 @@ sub process_color_esc_seqs ($) {
 sub usage ($) {
     my $rc = shift;
     my $msg = <<'_EOC_';
-src2html.pl [options] dir
+src2html.pl [options] dir book-title
 
 Options:
     --charset CHARSET     Specify the charset used by the HTML
@@ -730,6 +755,10 @@ Options:
 
     -c
     --color               Use full colors in the HTMTL outputs.
+
+    -e PATTERN
+    --exclude PATTERN     Specify a pattern for the source code files to be
+                          excluded.
 
     -h
     --help                Print this help.

@@ -64,7 +64,7 @@ a web browser on either a PC or a tablet.
 For the full usage of this script, specify the `-h` or `--help` options. One sample output is
 
 ```
-src2html.pl [options] dir
+src2html.pl [options] dir book-title
 
 Options:
     --charset CHARSET     Specify the charset used by the HTML
@@ -72,6 +72,10 @@ Options:
 
     -c
     --color               Use full colors in the HTMTL outputs.
+
+    -e PATTERN
+    --exclude PATTERN     Specify a pattern for the source code files to be
+                          excluded.
 
     -h
     --help                Print this help.
@@ -113,12 +117,14 @@ Right now all the file extension names known to your `ctags` program
 are supported. But `.html` and `.htm` files are always excluded to avoid
 infinite recursion.
 
-You can explicitly include extra source files by specifying the `--include=PATTERN` option,
+You can explicitly include extra source files by specifying as many `--include=PATTERN` options as you like,
 as in
 
 ```bash
-src2html.pl --include='src/*.blah' --include='*foo*' --color .
+src2html.pl --include='src/*.blah' --include='*foo*' --color . "my project"
 ```
+
+Similarly, you can also exclude files by specifying one or more `--exclude=PATTERN` options.
 
 [Back to TOC](#table-of-contents)
 
