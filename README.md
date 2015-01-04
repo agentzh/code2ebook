@@ -201,9 +201,8 @@ All these components are very common programs in the \*NIX world.
 Bugs
 ====
 
-* If the user hits `Ctrl-C` in the middle of the `src2html.pl` execution,
-the process may hang forever in the `vim` session.
-* `vim` is the dominating performance bottleneck when running the `src2html.pl` tool.
+* `vim` is the dominating performance bottleneck when running the `src2html.pl`
+tool with the `--color` option.
 
 [Back to TOC](#table-of-contents)
 

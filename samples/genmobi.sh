@@ -4,13 +4,15 @@
 # ebooks from the nginx source tree.
 # just put this script in the root directory of
 # your nginx source tree, and ensure both the src2html.pl
-# script (from src2kindle) and the ebook-convert utility
+# script (from code2ebook) and the ebook-convert utility
 # (from Calibre) are in your PATH.
+
+trap "echo Abort; exit" SIGINT
 
 name=`pwd|perl -e '$d=<>;$d=~s{.*/}{}g;print $d'`
 
-echo "Generating HTMLs for $name..."
-src2html.pl src $name
+echo "Generating HTMLs from src/ for $name..."
+src2html.pl --color --cross-reference src $name
 
 echo "Generating .mobi file for $name..."
 rm -rf *.mobi
@@ -20,5 +22,4 @@ for dir in core event http; do
         --title "$name $dir" --publisher agentzh \
         --language en --authors 'Igor Sysoev'
 done
-cp -uv *.mobi ~/mobi/
 

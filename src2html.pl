@@ -58,7 +58,7 @@ if ($use_colors) {
     );
 
     $vim_cmd_prefix =
-        "vim -E -X -R -i NONE -c '" . join(" | ", @vim_cmds). "' -- ";
+        "vim -E -X -R -u NONE -i NONE -c '" . join("|", @vim_cmds). "' -- ";
 }
 
 END {
@@ -76,6 +76,18 @@ my %type_by_files;
 my %macro_by_files;
 my %linkables;
 my %multi_dest_linkable_cache;
+my %child_pids;
+
+$SIG{INT} = sub {
+    for my $pid (keys %child_pids) {
+        warn "killing child process $pid...\n";
+        kill TERM => $pid;
+        sleep 0.1;
+        kill KILL => $pid;
+        waitpid $pid, 0;
+    }
+    exit 1;
+};
 
 my $src_root = shift or die "No source directory specified.\n";
 my $pkg_name = shift or die "No book title specified.\n";
@@ -130,8 +142,37 @@ process_dir($src_root);
 sub shell ($) {
     my $cmd = shift;
     #warn "command: $cmd";
-    system($cmd) == 0
-        or die qq{failed to run command "$cmd": $!\n};
+
+    # Note: we cannot use Perl's system() here because it
+    # makes the parent process completely ignore the INT
+    # signal so only the child process gets it. But the
+    # vim program (in the child process) does not quit
+    # upon INT but just aborts our own batch vim commands,
+    # leading to the tragedy that vim hangs there forever.
+
+    my $pid = fork;
+    if (!defined $pid) {
+        die "failed to fork for command \"$cmd\": $!\n";
+    }
+
+    if ($pid == 0) {
+        # in the child process
+
+        open STDIN, '/dev/null' or die "Cannot read /dev/null: $!";
+        open STDOUT, '/dev/null' or die "Cannott write to /dev/null: $!";
+        exec $cmd or die "failed to exec command: $cmd";
+    }
+
+    # still in the parent process
+    $child_pids{$pid} = 1;
+    #warn "waiting on $pid for cmd $cmd...";
+    waitpid $pid, 0;
+    #warn "waited";
+    delete $child_pids{$pid};
+
+    if ($? != 0) {
+        die qq{failed to run command "$cmd": $?\n};
+    }
 }
 
 sub process_tags ($) {
@@ -269,7 +310,7 @@ sub write_src_html ($$$) {
     my $infile2;
 
     if ($use_colors) {
-        shell "$vim_cmd_prefix $infile < /dev/tty > /dev/null";
+        shell "$vim_cmd_prefix $infile";
         $infile2 = $tmpfile;
 
     } else {
