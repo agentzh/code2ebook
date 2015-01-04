@@ -63,7 +63,11 @@ src2html.pl --color --cross-reference . 'Your Book Title'
 The resulting HTML site can be viewed in a web browser. And the entry
 point is `/path/to/my/src/tree/index.html`.
 
-See [Samples](#samples) for real-world sample outputs.
+The following image shows what a typical HTML page looks like when rendered by a web browser:
+
+![minimal C source file example](http://agentzh.org/misc/image/src2html-main-c.png)
+
+See [Samples](#samples) for more complicated real-world sample outputs.
 Note that, for ebook readers lacking colors (like Amazon Kindle), then
 you should not specify the `--color` option for the `src2html.pl` script.
 
