@@ -314,6 +314,9 @@ sub process_dir ($) {
 
 sub is_excluded_file ($) {
     my $file = shift;
+    if (-l $file) {
+        return 1;
+    }
     defined $is_excluded_pattern ? $file =~ $is_excluded_pattern : undef;
 }
 
