@@ -387,7 +387,7 @@ _EOC_
         s/"/\&quot;/g;
         # the &#x200c; noise is to work-around a bug in epub + ibooks.
         s{_SRC2KINDLE_L(\d+)_}{<a id="L$1">&#x200c;</a>}smg;
-        s/\n/<br\/>/g;
+        s/\n/<br\/>\n/g;
     }
 
     if ($use_colors) {
