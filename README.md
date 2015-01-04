@@ -30,7 +30,7 @@ Table of Contents
         * [HTML for Nginx source tree](#html-for-nginx-source-tree)
         * [EPUB for Nginx source tree](#epub-for-nginx-source-tree)
         * [MOBI for Nginx source tree](#mobi-for-nginx-source-tree)
-* [Bugs](#bugs)
+* [Known issues](#known-issues)
 * [TODO](#todo)
 * [Author](#author)
 * [Copyright and License](#copyright-and-license)
@@ -333,11 +333,12 @@ http://agentzh.org/misc/code/nginx/nginx-1.7.9.mobi
 
 [Back to TOC](#table-of-contents)
 
-Bugs
-====
+Known issues
+============
 
 * `vim` is the dominating performance bottleneck when running the `src2html.pl`
 tool with the `--color` option.
+* When a tag has multiple targets, only the first one is picked up (in the future, we may provide a middle page listing all the targets for the user to choose, just as in the [LXR Cross Referencer](http://sourceforge.net/projects/lxr/)).
 
 [Back to TOC](#table-of-contents)
 
