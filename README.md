@@ -82,6 +82,9 @@ Options:
                           like * and [] are supported. And multiple occurances
                           of this option are allowed.
 
+    -x
+    --cross-reference     Turn on cross referencing links in the HTML output.
+
 Copyright (C) Yichun Zhang (agentzh) <agentzh@gmail.com>.
 ```
 
@@ -98,6 +101,9 @@ featuring
 source code file shown as TOC at the beginning of the
 corresponding HTML page.
 2. Colorful syntax highlighting via the `vim` program. (Enabled by the `--color` option).
+3. Cross-reference links to the definition lines of the referenced data types,
+macros, global variables, and functions across all the source code lines
+(similar to the [LXR Cross Referencer](http://sourceforge.net/projects/lxr/)).
 
 [Back to TOC](#table-of-contents)
 
@@ -205,8 +211,6 @@ TODO
 ====
 
 * Add support for the `--exclude=PATTERN` options to the [src2html.pl](#src2htmlpl) tool.
-* Add cross-referencing support for data types, macros, global variables,
-and functions inside the source code lines (as in the [LXR Cross Referencer](http://sourceforge.net/projects/lxr/)).
 
 [Back to TOC](#table-of-contents)
 

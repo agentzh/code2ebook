@@ -43,3 +43,7 @@ span.Todo {
 span.Underlined {
     text-decoration: underline;
 }
+
+span.linkable {
+    font-weight: bold;
+}
