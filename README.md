@@ -217,6 +217,8 @@ All these components are very common programs in the \*NIX world.
 Samples
 =======
 
+Below provides some sample ebooks generated from real-world opensource projects like [weighttp](#weighttp), [LuaJIT](#luajit), and [Nginx](#nginx).
+
 [Back to TOC](#table-of-contents)
 
 weighttp
