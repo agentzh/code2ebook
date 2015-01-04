@@ -27,6 +27,7 @@ sub process_cross_ref_esc_seqs ($$$$);
 sub add_cross_ref_esc_seq ($$$);
 sub add_cross_refs ($$$);
 sub is_included_file ($);
+sub canon_file_name ($);
 
 my $charset = 'UTF-8';
 
@@ -283,11 +284,11 @@ sub process_dir ($) {
         next if $entity =~ /(?:\.(?:swp|swo|bak)|~)$/;
         # entity: $entity
         #warn "entity: $entity";
-        my $fname = $dir eq '.' ? $entity : "$dir/$entity";
+        my $fname = canon_file_name "$dir/$entity";
         if (exists $files{$fname} || is_included_file($fname)) {
             if (!is_excluded_file($fname)) {
                 #warn "Processing file $fname...";
-                write_src_html($dir, $entity, $rel_path_cache);
+                write_src_html($dir, $fname, $rel_path_cache);
                 push @items, [file => $entity];
                 next;
             }
@@ -327,9 +328,8 @@ sub is_included_file ($) {
 }
 
 sub write_src_html ($$$) {
-    my ($dir, $entity, $rel_path_cache) = @_;
+    my ($dir, $infile, $rel_path_cache) = @_;
 
-    my $infile = "$dir/$entity";
     #warn "Reading source file $infile\n";
 
     my $infile2;
@@ -423,7 +423,7 @@ _EOC_
         process_cross_ref_esc_seqs(\$src, $dir, $infile, $rel_path_cache);
     }
 
-    my $outfile = "$dir/$entity.html";
+    my $outfile = "$infile.html";
     open my $out, ">$outfile" or
         die "Can't open $outfile for writing: $!\n";
     print $out <<_EOC_;
@@ -444,6 +444,12 @@ $preamble
 _EOC_
     close $out;
     warn "Wrote $outfile\n";
+}
+
+sub canon_file_name ($) {
+    my ($s) = @_;
+    $s =~ s{^\./}{}g;
+    $s;
 }
 
 sub add_cross_refs ($$$) {
