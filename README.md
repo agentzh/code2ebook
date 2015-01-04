@@ -14,9 +14,18 @@ Table of Contents
             * [HTML output features](#html-output-features)
             * [Source file types recognized](#source-file-types-recognized)
     * [Convert the HTML site to ebooks in various formats](#convert-the-html-site-to-ebooks-in-various-formats)
-        * [Generate mobi ebooks for Kindle](#generate-mobi-ebooks-for-kindle)
-        * [Generate epub ebooks for iPad/iPhone](#generate-epub-ebooks-for-ipadiphone)
+        * [Generate MOBI ebooks for Kindle](#generate-mobi-ebooks-for-kindle)
+        * [Generate EPUB ebooks for iPad/iPhone](#generate-epub-ebooks-for-ipadiphone)
 * [Prerequisites](#prerequisites)
+* [Samples](#samples)
+    * [weighttp](#weighttp)
+        * [HTML for weighttp source tree](#html-for-weighttp-source-tree)
+        * [EPUB for weighttp source tree](#epub-for-weighttp-source-tree)
+        * [MOBI for weighttp source tree](#mobi-for-weighttp-source-tree)
+    * [LuaJIT](#luajit)
+        * [HTML for LuaJIT source tree](#html-for-luajit-source-tree)
+        * [EPUB for LuaJIT source tree](#epub-for-luajit-source-tree)
+        * [MOBI for LuaJIT source tree](#mobi-for-luajit-source-tree)
 * [Bugs](#bugs)
 * [TODO](#todo)
 * [Author](#author)
@@ -47,10 +56,7 @@ src2html.pl --color /path/to/my/src/tree/ 'Your Book Title'
 The resulting HTML site can be viewed in a web browser. And the entry
 point is `/path/to/my/src/tree/index.html`.
 
-One sample site for the weighttp source tree can be browsed here:
-
-http://agentzh.org/misc/code/weighttp/
-
+See [Samples](#samples) for real-world sample outputs.
 Note that, for ebook readers lacking colors (like Amazon Kindle), then
 you should not specify the `--color` option for the `src2html.pl` script.
 
@@ -135,7 +141,7 @@ Now that we have the HTML-formatted "ebook", we can generate ebooks in other for
 
 [Back to TOC](#table-of-contents)
 
-### Generate mobi ebooks for Kindle
+### Generate MOBI ebooks for Kindle
 
 For example, to generate a `.mobi` file for Kindle DX:
 
@@ -164,7 +170,7 @@ Well you need both Perl and Python ;)
 
 [Back to TOC](#table-of-contents)
 
-### Generate epub ebooks for iPad/iPhone
+### Generate EPUB ebooks for iPad/iPhone
 
 Below is a simple sample command to generate the `.epub` ebook from the
 HTML site:
@@ -201,6 +207,69 @@ should be readily available in almost all the Linux
 distributions by simply installing the `perl` package.
 
 All these components are very common programs in the \*NIX world.
+
+[Back to TOC](#table-of-contents)
+
+Samples
+=======
+
+[Back to TOC](#table-of-contents)
+
+weighttp
+--------
+
+[Back to TOC](#table-of-contents)
+
+### HTML for weighttp source tree
+
+The HTML site generated from the weighttp source code can be browsed here:
+
+http://agentzh.org/misc/code/weighttp/
+
+[Back to TOC](#table-of-contents)
+
+### EPUB for weighttp source tree
+
+The corresponding EPUB ebook can be downloaded from below:
+
+http://agentzh.org/misc/code/weighttp/weighttp.epub
+
+[Back to TOC](#table-of-contents)
+
+### MOBI for weighttp source tree
+
+The corresponding MOBI ebook can be downloaded from below:
+
+http://agentzh.org/misc/code/weighttp/weighttp.mobi
+
+[Back to TOC](#table-of-contents)
+
+LuaJIT
+------
+
+[Back to TOC](#table-of-contents)
+
+### HTML for LuaJIT source tree
+
+The HTML site generated from the weighttp source code can be browsed here:
+
+http://agentzh.org/misc/code/luajit2/
+
+[Back to TOC](#table-of-contents)
+
+### EPUB for LuaJIT source tree
+
+The corresponding EPUB ebook can be downloaded from below:
+
+http://agentzh.org/misc/code/luajit2/luajit-2.0-src.epub
+
+[Back to TOC](#table-of-contents)
+
+### MOBI for LuaJIT source tree
+
+The corresponding MOBI ebook can be downloaded from below:
+
+http://agentzh.org/misc/code/luajit2/luajit-2.0-src.mobi
 
 [Back to TOC](#table-of-contents)
 
