@@ -448,7 +448,7 @@ _EOC_
 
 sub canon_file_name ($) {
     my ($s) = @_;
-    $s =~ s{^\./}{}g;
+    $s =~ s{^\./+|//+}{}g;
     $s;
 }
 

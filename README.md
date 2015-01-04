@@ -47,15 +47,17 @@ directly from arbitrary source trees.
 Generate static HTML sites from source trees
 --------------------------------------------
 
-Before you begin, ensure you have installed all the [prerequisites](#prerequisites).
+Before you begin, ensure you have installed all the [prerequisites](#prerequisites) (well, don't be scared, just `vim`, `ctags`, and `perl` ;)).
 
 ### src2html.pl
 
 The `src2html.pl` script can generate an HTML tree from the source tree that you specify, for example:
 
 ```bash
-export PATH=/path/to/code2ebook$PATH
-src2html.pl --color /path/to/my/src/tree/ 'Your Book Title'
+export PATH=/path/to/code2ebook:$PATH
+
+cd /path/to/your/project/
+src2html.pl --color --cross-reference . 'Your Book Title'
 ```
 
 The resulting HTML site can be viewed in a web browser. And the entry
@@ -152,13 +154,17 @@ Now that we have the HTML-formatted "ebook", we can generate ebooks in other for
 For example, to generate a `.mobi` file for Kindle DX:
 
 ```bash
-ebook-convert /path/to/my/src/tree/index.html my-src.mobi \
+
+cd /path/to/your/project/
+
+# assuming we specified the "." directory while running src2html.pl
+ebook-convert ./index.html my-project.mobi \
     --output-profile kindle_dx --no-inline-toc \
     --title "Your Book Title" --publisher 'Your Name' \
     --language en --authors 'Your Author Name'
 ```
 
-In this example, the resulting ebook file is named `my-src.mobi` in the
+In this example, the resulting ebook file is named `my-project.mobi` in the
 current working directory.
 
 Note: On OS X you have to go to `Preferences->Advanced->Miscellaneous` and click install command line tools to make the command line tools available after you installed the app. On other platforms, just start a terminal and type the command.
@@ -182,14 +188,17 @@ Below is a simple sample command to generate the `.epub` ebook from the
 HTML site:
 
 ```bash
-ebook-convert /path/to/my/src/tree/index.html my-src.epub \
+cd /path/to/your/project/
+
+# assuming we specified the "." directory while running src2html.pl
+ebook-convert ./index.html my-project.epub \
     --output-profile ipad3 \
     --no-default-epub-cover \
     --title "Your Book Title" --publisher 'Your Name' \
     --language en --authors 'Your Author Name'
 ```
 
-In this example, the resulting ebook file is named `my-src.epub` in the
+In this example, the resulting ebook file is named `my-project.epub` in the
 current working directory, which is readily readable in apps like `iBooks`.
 
 [Back to TOC](#table-of-contents)
