@@ -61,7 +61,7 @@ src2html.pl --color --cross-reference . 'Your Book Title'
 ```
 
 The resulting HTML site can be viewed in a web browser. And the entry
-point is `/path/to/my/src/tree/index.html`.
+point is `./index.html` (according to the command above).
 
 The following image shows what a typical HTML page looks like when rendered by a web browser:
 
@@ -121,11 +121,11 @@ featuring
 1. Summarized data types, macros, global variables, and functions defined in each
 source code file shown as TOC at the beginning of the
 corresponding HTML page.
-2. Colorful syntax highlighting via the `vim` program. (Enabled by the `--color` option).
+2. Colorful syntax highlighting via the `vim` program (enabled by the `--color` option).
 3. Cross-reference links to the definition lines of the referenced data types,
 macros, global variables, and functions across all the source code lines
 (similar to the [LXR Cross Referencer](http://sourceforge.net/projects/lxr/)
-but ours is much more lightweight).
+but ours is much more lightweight). This is enabled by the `--cross-reference` option (or the `-x` option for short).
 
 [Back to TOC](#table-of-contents)
 
@@ -171,7 +171,7 @@ ebook-convert ./index.html my-project.mobi \
 In this example, the resulting ebook file is named `my-project.mobi` in the
 current working directory.
 
-Note: On OS X you have to go to `Preferences->Advanced->Miscellaneous` and click install command line tools to make the command line tools available after you installed the app. On other platforms, just start a terminal and type the command.
+Note: On OS X you have to go to `Preferences->Advanced->Miscellaneous` and click `install command line tools` to make the command line tools available after you installed the app. On other platforms, just start a terminal and type the command.
 
 Here we use the value "kindle_dx" for the `--output-profile` option
 assuming that we want to view the ebook in Kindle DX. You
@@ -203,7 +203,7 @@ ebook-convert ./index.html my-project.epub \
 ```
 
 In this example, the resulting ebook file is named `my-project.epub` in the
-current working directory, which is readily readable in apps like `iBooks`.
+current working directory, which is readily readable in apps like `iBooks` on iPad or iPhone.
 
 [Back to TOC](#table-of-contents)
 
