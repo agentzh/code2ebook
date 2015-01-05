@@ -10,6 +10,7 @@ Table of Contents
 * [Description](#description)
     * [Generate static HTML sites from source trees](#generate-static-html-sites-from-source-trees)
         * [src2html.pl](#src2htmlpl)
+            * [Change CSS style](#change-css-style)
             * [Usage](#usage)
             * [HTML output features](#html-output-features)
             * [Source file types recognized](#source-file-types-recognized)
@@ -76,6 +77,15 @@ a web browser on either a PC or a tablet.
 
 [Back to TOC](#table-of-contents)
 
+#### Change CSS style
+
+It is worth mentioning that if you do not like the default colors or have further
+style requirements, you can just specify the `--css FILE` option to make
+the HTML pages
+use your own. You can start with the default CSS file (named `colorful.css`) in this project.
+
+[Back to TOC](#table-of-contents)
+
 #### Usage
 
 For the full usage of this script, specify the `-h` or `--help` options. One sample output is
@@ -89,6 +99,9 @@ Options:
 
     -c
     --color               Use full colors in the HTMTL outputs.
+
+    --css FILE            Use FILE as the CSS file to render the HTML
+                          pages instead of using the default style.
 
     -e PATTERN
     --exclude PATTERN     Specify a pattern for the source code files to be

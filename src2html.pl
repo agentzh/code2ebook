@@ -37,7 +37,8 @@ GetOptions("charset=s",         \$charset,
            "e|exclude=s@",      \(my $exclude_files),
            "h|help",            \(my $help),
            "i|include=s@",      \(my $include_files),
-           "x|cross-reference", \(my $use_cross_ref))
+           "x|cross-reference", \(my $use_cross_ref),
+           "css=s",             \(my $cssfile))
    or usage(1);
 
 if ($help) {
@@ -124,7 +125,7 @@ shell "ctags --exclude='*.html' --exclude='*.htm' -f $tagfile -n -u "
 
 my $css;
 {
-    my $cssfile = "$FindBin::Bin/colorful.css";
+    $cssfile ||= "$FindBin::Bin/colorful.css";
     open my $in, $cssfile
         or die "cannot open $cssfile for reading: $!\n";
     $css = do { local $/; <$in> };
@@ -760,6 +761,9 @@ Options:
 
     -c
     --color               Use full colors in the HTMTL outputs.
+
+    --css FILE            Use FILE as the CSS file to render the HTML
+                          pages instead of using the default style.
 
     -e PATTERN
     --exclude PATTERN     Specify a pattern for the source code files to be
