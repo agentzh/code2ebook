@@ -28,6 +28,7 @@ sub add_cross_ref_esc_seq ($$$);
 sub add_cross_refs ($$$);
 sub is_included_file ($);
 sub canon_file_name ($);
+sub assemble_wildcard_regex ($);
 
 my $charset = 'UTF-8';
 
@@ -110,35 +111,10 @@ while (<$in>) {
 }
 close $in;
 
-my ($is_included_pattern, $cross_ref_pattern);
+my $cross_ref_pattern;
 
-if (@$include_files) {
-    for my $f (@$include_files) {
-        $f =~ s/\./\\./g;
-        $f =~ s/\*/.*?/g;
-        if ($f =~ /\|/) {
-            $f = "(?:$f)";
-        }
-    }
-    my $s = join '|', @$include_files;
-    $is_included_pattern = qr/^(?:$s)$/;
-    #warn "$is_included_pattern";
-}
-
-my $is_excluded_pattern;
-
-if ($exclude_files && @$exclude_files) {
-    for my $f (@$exclude_files) {
-        $f =~ s/\./\\./g;
-        $f =~ s/\*/.*?/g;
-        if ($f =~ /\|/) {
-            $f = "(?:$f)";
-        }
-    }
-    my $s = join '|', @$exclude_files;
-    $is_excluded_pattern = qr/^(?:$s)$/;
-    #warn "$is_excluded_pattern";
-}
+my $is_included_pattern = assemble_wildcard_regex $include_files;
+my $is_excluded_pattern = assemble_wildcard_regex $exclude_files;
 
 $src_root = File::Spec->abs2rel($src_root);
 warn "processing \"$src_root\" with ctags...\n";
@@ -751,6 +727,24 @@ sub process_color_esc_seqs ($) {
      if ($open) {
          $$src_ref .= "</span>";
      }
+}
+
+sub assemble_wildcard_regex ($) {
+    my ($list) = @_;
+
+    if (!defined $list || @$list == 0) {
+        return undef;
+    }
+
+    for (@$list) {
+        s#([\|+^\${}()\\])#\\$1#g;
+        s/\./\\./g;
+        s/\*/.*?/g;
+    }
+
+    my $s = "^(?:" . join('|', @$list) . ')$';
+    warn "regex: $s\n";
+    return qr/$s/;
 }
 
 sub usage ($) {
