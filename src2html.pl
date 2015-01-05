@@ -225,7 +225,7 @@ sub process_tags ($) {
 
     if ($use_cross_ref && %linkables) {
         #warn "assemble a huge regex for cross references...";
-        $cross_ref_pattern = "(\\b(?:" . join("|",
+        $cross_ref_pattern = "(?<!\x1b\\[)(\\b(?:" . join("|",
                                             map { $_ = quotemeta;
                                                   /\|/ ? "(?:$_)" : $_ }
                                                 keys %linkables)
