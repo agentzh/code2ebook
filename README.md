@@ -220,10 +220,11 @@ distributions by simply installing the `ctags` package.
 
 should be readily available in almost all the Linux distributions
 by simply installing the `vim` package.
-* [perl 5](http://www.perl.org/)
+* [perl](http://www.perl.org/)
 
 should be readily available in almost all the Linux
-distributions by simply installing the `perl` package.
+distributions by simply installing the `perl` package. It is worth mentioning that perl 5.10 or above is highly recommended due to performance boost
+in the perl regex engine. But older versions of perl should also work as well, just much slower.
 
 All these components are very common programs in the \*NIX world.
 
