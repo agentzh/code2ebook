@@ -600,9 +600,11 @@ sub extract_line_by_lineno ($$$$) {
     pos $$src_ref = $pos;
     if ($$src_ref =~ /\G([^\n]*)/m) {
         my $line = $1;
-        #if ($file eq 'src/lib_ffi.c') {
-        #warn "$file:$lineno:$pos: [$line]\n";
-        #}
+        if ($line =~ /\[/ && $use_cross_ref) {
+            $line =~ s/\x1b\[\*//g;
+            $line =~ s/\x1b\[\[.*?:.*?:(.*?)\x1b\[\]/$1/g;
+            $line =~ s/\x1b\[\w*;//g;
+        }
         return $line;
     }
 }
