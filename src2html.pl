@@ -743,7 +743,7 @@ sub assemble_wildcard_regex ($) {
     }
 
     my $s = "^(?:" . join('|', @$list) . ')$';
-    warn "regex: $s\n";
+    #warn "regex: $s\n";
     return qr/$s/;
 }
 
