@@ -601,7 +601,7 @@ sub extract_line_by_lineno ($$$$) {
     pos $$src_ref = $pos;
     if ($$src_ref =~ /\G([^\n]*)/m) {
         my $line = $1;
-        if ($line =~ /\[/ && $use_cross_ref) {
+        if (($use_cross_ref || $use_colors) && $line =~ /\[/) {
             $line =~ s/\x1b\[\*//g;
             $line =~ s/\x1b\[\[.*?:.*?:(.*?)\x1b\[\]/$1/g;
             $line =~ s/\x1b\[\w*;//g;
