@@ -135,6 +135,12 @@ Right now all the file extension names known to your `ctags` program
 are supported. But `.html` and `.htm` files are always excluded to avoid
 infinite recursion.
 
+For the full language list supported by this tool, just type the following command:
+
+```bash
+ctags --list-maps=all
+```
+
 You can explicitly include extra source files by specifying as many `--include=PATTERN` options as you like,
 as in
 
@@ -210,7 +216,7 @@ current working directory, which is readily readable in apps like `iBooks` on iP
 Prerequisites
 =============
 
-You need to install the following dependencies of a recent version:
+You need to install the following dependencies of a recent version (the newer, the better):
 
 * [Exuberant ctags](http://ctags.sourceforge.net/)
 
