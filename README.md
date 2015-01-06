@@ -42,17 +42,19 @@ Description
 
 Want to browse big source code trees in your Kindle or iPad?
 
-This project provides utilities to help generating pretty ebook files in various formats
-directly from arbitrary source trees.
+This project provides utilities to help generating pretty ebook files in
+various formats directly from arbitrary source trees.
 
 Generate static HTML sites from source trees
 --------------------------------------------
 
-Before you begin, ensure you have installed all the [prerequisites](#prerequisites) (well, don't be scared, just `vim`, `ctags`, and `perl` ;)).
+Before you begin, ensure you have installed all the [prerequisites](#prerequisites)
+(well, don't be scared, just `vim`, `ctags`, and `perl` ;)).
 
 ### src2html.pl
 
-The `src2html.pl` script can generate an HTML tree from the source tree that you specify, for example:
+The `src2html.pl` script can generate an HTML tree from the source tree that you
+specify, for example:
 
 ```bash
 export PATH=/path/to/code2ebook:$PATH
@@ -82,13 +84,15 @@ a web browser on either a PC or a tablet.
 It is worth mentioning that if you do not like the default colors or have further
 style requirements, you can just specify the `--css FILE` option to make
 the HTML pages
-use your own. You can start with the default CSS file (named `colorful.css`) in this project.
+use your own CSS file. You can start with the default CSS file (named `colorful.css`)
+in this project.
 
 [Back to TOC](#table-of-contents)
 
 #### Usage
 
-For the full usage of this script, specify the `-h` or `--help` options. One sample output is
+For the full usage of this script, specify the `-h` or `--help` options. One sample
+output is
 
 ```
 src2html.pl [options] dir book-title
@@ -134,11 +138,13 @@ featuring
 1. Summarized data types, macros, global variables, and functions defined in each
 source code file shown as TOC at the beginning of the
 corresponding HTML page.
-2. Colorful syntax highlighting via the `vim` program (enabled by the `--color` option).
+2. Colorful syntax highlighting via the `vim` program (enabled by the `--color`
+option, or `-c` for short).
 3. Cross-reference links to the definition lines of the referenced data types,
 macros, global variables, and functions across all the source code lines
 (similar to the [LXR Cross Referencer](http://sourceforge.net/projects/lxr/)
-but ours is much more lightweight). This is enabled by the `--cross-reference` option (or the `-x` option for short).
+but ours is much more lightweight). This is enabled by the `--cross-reference`
+option (or the `-x` option for short).
 
 [Back to TOC](#table-of-contents)
 
@@ -154,21 +160,23 @@ For the full language list supported by this tool, just type the following comma
 ctags --list-maps=all
 ```
 
-You can explicitly include extra source files by specifying as many `--include=PATTERN` options as you like,
-as in
+You can explicitly include extra source files by specifying as many
+`--include=PATTERN` options as you like, as in
 
 ```bash
 src2html.pl --include='src/*.blah' --include='*foo*' --color . "my project"
 ```
 
-Similarly, you can also exclude files by specifying one or more `--exclude=PATTERN` options.
+Similarly, you can also exclude files by specifying one or more
+`--exclude=PATTERN` options.
 
 [Back to TOC](#table-of-contents)
 
 Convert the HTML site to ebooks in various formats
 --------------------------------------------------
 
-Now that we have the HTML-formatted "ebook", we can generate ebooks in other formats like `.mobi` and `.epub` using [Calibre](http://calibre-ebook.com/).
+Now that we have the HTML-formatted "ebook", we can generate ebooks in other formats
+like `.mobi` and `.epub` using [Calibre](http://calibre-ebook.com/).
 
 [Back to TOC](#table-of-contents)
 
@@ -190,7 +198,9 @@ ebook-convert ./index.html my-project.mobi \
 In this example, the resulting ebook file is named `my-project.mobi` in the
 current working directory.
 
-Note: On OS X you have to go to `Preferences->Advanced->Miscellaneous` and click `install command line tools` to make the command line tools available after you installed the app. On other platforms, just start a terminal and type the command.
+Note: On OS X you have to go to `Preferences->Advanced->Miscellaneous` and click
+`install command line tools` to make the command line tools available after you
+installed the app. On other platforms, just start a terminal and type the command.
 
 Here we use the value "kindle_dx" for the `--output-profile` option
 assuming that we want to view the ebook in Kindle DX. You
@@ -222,14 +232,16 @@ ebook-convert ./index.html my-project.epub \
 ```
 
 In this example, the resulting ebook file is named `my-project.epub` in the
-current working directory, which is readily readable in apps like `iBooks` on iPad or iPhone.
+current working directory, which is readily readable in apps like `iBooks` on
+iPad or iPhone.
 
 [Back to TOC](#table-of-contents)
 
 Prerequisites
 =============
 
-You need to install the following dependencies of a recent version (the newer, the better):
+You need to install the following dependencies of a recent version (the newer,
+the better):
 
 * [Exuberant ctags](http://ctags.sourceforge.net/)
 
@@ -242,8 +254,10 @@ by simply installing the `vim` package.
 * [perl](http://www.perl.org/)
 
 should be readily available in almost all the Linux
-distributions by simply installing the `perl` package. It is worth mentioning that perl 5.10 or above is highly recommended due to performance boost
-in the perl regex engine. But older versions of perl should also work as well, just much slower.
+distributions by simply installing the `perl` package. It is worth mentioning
+that perl 5.10 or above is highly recommended due to performance boost
+in the perl regex engine. But older versions of perl should also work as well,
+just much slower (like 30x slower).
 
 All these components are very common programs in the \*NIX world.
 
@@ -252,7 +266,8 @@ All these components are very common programs in the \*NIX world.
 Sample eBooks
 =============
 
-Below provides some sample ebooks generated from real-world opensource projects like [weighttp](#weighttp), [LuaJIT](#luajit), and [Nginx](#nginx).
+Below provides some sample ebooks generated from real-world opensource
+projects like [weighttp](#weighttp), [LuaJIT](#luajit), and [Nginx](#nginx).
 
 [Back to TOC](#table-of-contents)
 
@@ -291,7 +306,8 @@ http://agentzh.org/misc/code/weighttp/weighttp.mobi
 LuaJIT
 ------
 
-[LuaJIT](http://luajit.org/luajit.html) is a Just-In-Time Compiler (JIT) for the Lua programming language.
+[LuaJIT](http://luajit.org/luajit.html) is a Just-In-Time Compiler (JIT) for
+the Lua programming language.
 Lua is a powerful, dynamic and light-weight programming language.
 
 [Back to TOC](#table-of-contents)
@@ -358,14 +374,17 @@ Known issues
 
 * `vim` is the dominating performance bottleneck when running the `src2html.pl`
 tool with the `--color` option.
-* When a tag has multiple targets, only the first one is picked up (in the future, we may provide a middle page listing all the targets for the user to choose, just as in the [LXR Cross Referencer](http://sourceforge.net/projects/lxr/)).
+* When a tag has multiple targets, only the first one is picked up (in the future,
+we may provide a middle page listing all the targets for the user to choose,
+just as in the [LXR Cross Referencer](http://sourceforge.net/projects/lxr/)).
 
 [Back to TOC](#table-of-contents)
 
 TODO
 ====
 
-* Add support for the `--exclude=PATTERN` options to the [src2html.pl](#src2htmlpl) tool.
+* Add support for the `--include-only=PATTERN` options to the
+[src2html.pl](#src2htmlpl) tool.
 
 [Back to TOC](#table-of-contents)
 
@@ -385,13 +404,27 @@ Copyright (C) 2011-2014, by Yichun "agentzh" Zhang, CloudFlare Inc.
 
 All rights reserved.
 
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.
 
-* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+* Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
 
 [Back to TOC](#table-of-contents)
 
