@@ -47,3 +47,14 @@ span.Underlined {
 span.linkable {
     font-weight: bold;
 }
+
+code ol {
+    background-color: #eee;
+}
+code li {
+    background-color: #fff;
+    padding-left: 1em;
+    margin-left: 1em;
+    line-height: 1.5em;
+}
+
