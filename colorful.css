@@ -65,5 +65,5 @@ code li:before {
     counter-increment: item;
     color: #999;
     padding-right: 1em;
-    padding-left: 1em;
+    padding-left: 0.4em;
 }
