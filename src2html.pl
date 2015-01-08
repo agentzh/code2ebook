@@ -219,7 +219,7 @@ sub process_tags ($) {
             }
 
         } else {
-            die "Unknown tags file line: ", quotemeta($_);
+            warn "Unknown tags file line: ", quotemeta($_);
         }
     }
 
