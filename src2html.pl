@@ -392,9 +392,9 @@ _EOC_
         s/"/\&quot;/g;
         # the &#x200c; noise is to work-around a bug in epub + ibooks.
         s{_SRC2KINDLE_L(\d+)_}{<a id="L$1">&#x200c;</a>}smg;
-        s/\n/<br\/>\n/g;
+        s/\n/<\/li>\n<li>/g;
     }
-
+    $src = "<ol><li>$src</li></ol>";
     if ($use_colors) {
         process_color_esc_seqs(\$src);
     }
