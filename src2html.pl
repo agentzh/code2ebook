@@ -29,8 +29,11 @@ sub add_cross_refs ($$$);
 sub is_included_file ($);
 sub canon_file_name ($);
 sub assemble_wildcard_regex ($);
+sub create_dir ($);
 
 my $charset = 'UTF-8';
+
+my $outdir = "html_out";
 
 GetOptions("charset=s",         \$charset,
            "c|color",           \(my $use_colors),
@@ -38,6 +41,7 @@ GetOptions("charset=s",         \$charset,
            "h|help",            \(my $help),
            "i|include=s@",      \(my $include_files),
            "l|line-numbers",    \(my $use_lineno),
+           "o|out-dir=s",       \($outdir),
            "x|cross-reference", \(my $use_cross_ref),
            "css=s",             \(my $cssfile))
    or usage(1);
@@ -95,6 +99,10 @@ $SIG{INT} = sub {
 my $src_root = shift or die "No source directory specified.\n";
 my $pkg_name = shift or die "No book title specified.\n";
 
+if ($src_root =~ m{^/}) {
+    die "Absolute directory name \"$src_root\" not supported yet.\n";
+}
+
 if (!defined $include_files) {
     $include_files = [];
 }
@@ -134,6 +142,11 @@ my $css;
 }
 
 process_tags($tagfile);
+
+if (!-d $outdir) {
+    create_dir "$outdir";
+}
+
 process_dir($src_root);
 
 sub shell ($) {
@@ -256,6 +269,7 @@ sub process_dir ($) {
 
     opendir my $dh, $dir or die "Can't open $dir for reading: $!\n";
 
+    my $gen_out_dir = 1;
     my @items;
     my $rel_path_cache = {};
     while (my $entity = readdir($dh)) {
@@ -266,6 +280,11 @@ sub process_dir ($) {
         if (exists $files{$fname} || is_included_file($fname)) {
             if (!is_excluded_file($fname)) {
                 #warn "Processing file $fname...";
+                if ($gen_out_dir) {
+                    undef $gen_out_dir;
+                    create_dir "$outdir/$dir";
+                }
+
                 write_src_html($dir, $fname, $rel_path_cache);
                 push @items, [file => $entity];
                 next;
@@ -284,10 +303,23 @@ sub process_dir ($) {
     close $dh;
 
     if (@items) {
+        if ($gen_out_dir) {
+            undef $gen_out_dir;
+            create_dir "$outdir/$dir";
+        }
+
         write_index($dir, \@items);
     }
 
     return scalar @items;
+}
+
+sub create_dir ($) {
+    my $dir = shift;
+    if (!-d $dir) {
+        mkdir $dir
+            or die "Cannot create output directory $dir $!\n";
+    }
 }
 
 sub is_excluded_file ($) {
@@ -416,7 +448,7 @@ _EOC_
         process_cross_ref_esc_seqs(\$src, $dir, $infile, $rel_path_cache);
     }
 
-    my $outfile = "$infile.html";
+    my $outfile = "$outdir/$infile.html";
     open my $out, ">$outfile" or
         die "Can't open $outfile for writing: $!\n";
     print $out <<_EOC_;
@@ -650,7 +682,7 @@ sub is_tag_array ($) {
 sub write_index ($$) {
     my ($dir, $ritems) = @_;
 
-    my $outfile = "$dir/index.html";
+    my $outfile = "$outdir/$dir/index.html";
     open my $out, ">$outfile" or
         die "Can't open $outfile for writing: $!\n";
 
@@ -794,6 +826,10 @@ Options:
     -l
     --line-numbers        Display source code line numbers in the HTML
                           output.
+
+    -o DIR
+    --out-dir DIR         Specify DIR as the target directory holding the HTML
+                          output. Default to "./html_out".
 
     -x
     --cross-reference     Turn on cross referencing links in the HTML output.

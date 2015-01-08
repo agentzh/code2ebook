@@ -64,7 +64,9 @@ src2html.pl --color --cross-reference --line-numbers . 'Your Book Title'
 ```
 
 The resulting HTML site can be viewed in a web browser. And the entry
-point is `./index.html` (according to the command above).
+point is `html_out/index.html` (according to the command above).
+The default output directory is `./html_out/`, and you can change that
+by specifying the `--out-dir=DIR` option (or `-o DIR` for short).
 
 The following image shows what a typical HTML page looks like when rendered by a web browser:
 
@@ -123,6 +125,10 @@ Options:
     -l
     --line-numbers        Display source code line numbers in the HTML
                           output.
+
+    -o DIR
+    --out-dir DIR         Specify DIR as the target directory holding the HTML
+                          output. Default to "html_out".
 
     -x
     --cross-reference     Turn on cross referencing links in the HTML output.
@@ -193,7 +199,7 @@ For example, to generate a `.mobi` file for Kindle DX:
 cd /path/to/your/project/
 
 # assuming we specified the "." directory while running src2html.pl
-ebook-convert ./index.html my-project.mobi \
+ebook-convert html_out/index.html my-project.mobi \
     --output-profile kindle_dx --no-inline-toc \
     --title "Your Book Title" --publisher 'Your Name' \
     --language en --authors 'Your Author Name'
@@ -228,7 +234,7 @@ HTML site:
 cd /path/to/your/project/
 
 # assuming we specified the "." directory while running src2html.pl
-ebook-convert ./index.html my-project.epub \
+ebook-convert html_out/index.html my-project.epub \
     --output-profile ipad3 \
     --no-default-epub-cover \
     --title "Your Book Title" --publisher 'Your Name' \
