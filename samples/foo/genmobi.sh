@@ -17,7 +17,7 @@ src2html.pl --color --cross-reference --line-numbers . $name
 
 echo "Generating $name.epub file..."
 rm -rf *.epub
-ebook-convert ./index.html $name.epub \
+ebook-convert html_out/index.html $name.epub \
     --output-profile ipad3 \
     --no-default-epub-cover \
     --output-profile kindle_dx \
@@ -26,7 +26,7 @@ ebook-convert ./index.html $name.epub \
 
 echo "Generating $name.mobi file..."
 rm -rf *.mobi
-ebook-convert ./index.html $name.mobi \
+ebook-convert html_out/index.html $name.mobi \
     --output-profile kindle_dx --no-inline-toc \
     --title "$title" --publisher agentzh \
     --language en --authors agentzh
