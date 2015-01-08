@@ -9,6 +9,7 @@ use File::Temp qw/ :POSIX /;
 use Getopt::Long qw( GetOptions :config no_ignore_case);
 #use Data::Dumper;
 use File::Spec ();
+use File::Path qw( make_path );
 
 sub usage ($);
 sub process_dir ($);
@@ -317,7 +318,7 @@ sub process_dir ($) {
 sub create_dir ($) {
     my $dir = shift;
     if (!-d $dir) {
-        mkdir $dir
+        make_path $dir
             or die "Cannot create output directory $dir $!\n";
     }
 }
