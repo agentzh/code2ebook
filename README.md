@@ -60,7 +60,7 @@ specify, for example:
 export PATH=/path/to/code2ebook:$PATH
 
 cd /path/to/your/project/
-src2html.pl --color --cross-reference . 'Your Book Title'
+src2html.pl --color --cross-reference --line-numbers . 'Your Book Title'
 ```
 
 The resulting HTML site can be viewed in a web browser. And the entry
@@ -68,7 +68,7 @@ point is `./index.html` (according to the command above).
 
 The following image shows what a typical HTML page looks like when rendered by a web browser:
 
-![minimal C source file example](http://agentzh.org/misc/image/src2html-main-c.png)
+![minimal C source file example](http://agentzh.org/misc/image/src2html-main-c2.png)
 
 See [Samples](#samples) for more complicated real-world sample outputs.
 Note that, for ebook readers lacking colors (like Amazon Kindle), then
@@ -119,6 +119,10 @@ Options:
                           to include in the HTML output. Wildcards
                           like * and [] are supported. And multiple occurances
                           of this option are allowed.
+
+    -l
+    --line-numbers        Display source code line numbers in the HTML
+                          output.
 
     -x
     --cross-reference     Turn on cross referencing links in the HTML output.

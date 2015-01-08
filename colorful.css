@@ -47,3 +47,23 @@ span.Underlined {
 span.linkable {
     font-weight: bold;
 }
+
+code ol {
+    counter-reset: item;
+    list-style-type: none;
+    margin-left: 0;
+    padding-left: 0;
+    list-style-position: inside;
+}
+
+code li {
+    display: block;
+}
+
+code li:before {
+    content: counter(item) "  ";
+    counter-increment: item;
+    color: #999;
+    padding-right: 1em;
+    padding-left: 1em;
+}

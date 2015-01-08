@@ -37,6 +37,7 @@ GetOptions("charset=s",         \$charset,
            "e|exclude=s@",      \(my $exclude_files),
            "h|help",            \(my $help),
            "i|include=s@",      \(my $include_files),
+           "l|line-numbers",    \(my $use_lineno),
            "x|cross-reference", \(my $use_cross_ref),
            "css=s",             \(my $cssfile))
    or usage(1);
@@ -381,7 +382,6 @@ _EOC_
     }
 
     for ($src) {
-        s/\n\n\n+/\n\n/gs;
         s/[ \t]+\n/\n/gs;
         s/\t/    /gs;
         s/\&/\&amp;/g;
@@ -393,6 +393,19 @@ _EOC_
         # the &#x200c; noise is to work-around a bug in epub + ibooks.
         s{_SRC2KINDLE_L(\d+)_}{<a id="L$1">&#x200c;</a>}smg;
         s/\n/<br\/>\n/g;
+
+        if ($use_lineno) {
+            s/\n/<\/li>\n<li>/g;
+        }
+    }
+
+    if ($use_lineno) {
+        if ($src =~ s/<li>\s*\z//gs) {
+            $src = "<ol><li>$src</ol>";
+
+        } else {
+            $src = "<ol><li>$src</li></ol>";
+        }
     }
 
     if ($use_colors) {
@@ -777,6 +790,10 @@ Options:
                           to include in the HTML output. Wildcards
                           like * and [] are supported. And multiple occurances
                           of this option are allowed.
+
+    -l
+    --line-numbers        Display source code line numbers in the HTML
+                          output.
 
     -x
     --cross-reference     Turn on cross referencing links in the HTML output.

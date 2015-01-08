@@ -13,7 +13,7 @@ title="foo program"
 export PATH=$PWD/../..:$PATH
 
 echo "Generating HTMLs from ./ for $name..."
-src2html.pl --color --cross-reference . $name
+src2html.pl --color --cross-reference --line-numbers . $name
 
 echo "Generating $name.epub file..."
 rm -rf *.epub
