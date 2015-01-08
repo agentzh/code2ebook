@@ -381,6 +381,10 @@ tool with the `--color` option.
 * When a tag has multiple targets, only the first one is picked up (in the future,
 we may provide a middle page listing all the targets for the user to choose,
 just as in the [LXR Cross Referencer](http://sourceforge.net/projects/lxr/)).
+* The default `ctags` program on Mac OS X is not
+[Exuberant ctags](http://ctags.sourceforge.net/), and thus not supported at all.
+You can install the right `ctags` utility via [Homebrew](http://brew.sh/),
+for example.
 
 [Back to TOC](#table-of-contents)
 
