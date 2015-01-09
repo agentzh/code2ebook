@@ -20,17 +20,10 @@ Table of Contents
 * [Prerequisites](#prerequisites)
 * [Sample eBooks](#sample-ebooks)
     * [weighttp](#weighttp)
-        * [HTML for weighttp source tree](#html-for-weighttp-source-tree)
-        * [EPUB for weighttp source tree](#epub-for-weighttp-source-tree)
-        * [MOBI for weighttp source tree](#mobi-for-weighttp-source-tree)
     * [LuaJIT](#luajit)
-        * [HTML for LuaJIT source tree](#html-for-luajit-source-tree)
-        * [EPUB for LuaJIT source tree](#epub-for-luajit-source-tree)
-        * [MOBI for LuaJIT source tree](#mobi-for-luajit-source-tree)
     * [Nginx](#nginx)
-        * [HTML for Nginx source tree](#html-for-nginx-source-tree)
-        * [EPUB for Nginx source tree](#epub-for-nginx-source-tree)
-        * [MOBI for Nginx source tree](#mobi-for-nginx-source-tree)
+    * [GDB](#gdb)
+    * [ktap](#ktap)
 * [Known issues](#known-issues)
 * [TODO](#todo)
 * [Author](#author)
@@ -72,11 +65,12 @@ The following image shows what a typical HTML page looks like when rendered by a
 
 ![minimal C source file example](http://agentzh.org/misc/image/src2html-main-c2.png)
 
-See [Samples](#samples) for more complicated real-world sample outputs.
+See [Sample eBooks](#sample-ebooks) for more complicated real-world sample outputs.
+
 Note that, for ebook readers lacking colors (like Amazon Kindle), then
 you should not specify the `--color` option for the `src2html.pl` script.
 
-This is essentially an HTML-formatted "ebook", which is readily browsable in
+The output is essentially an HTML-formatted "ebook", which is readily browsable in
 a web browser on either a PC or a tablet.
 
 [Back to TOC](#table-of-contents)
@@ -287,29 +281,9 @@ weighttp
 [weighttp](http://redmine.lighttpd.net/projects/weighttp/wiki)
 is a lightweight and small benchmarking tool for webservers.
 
-[Back to TOC](#table-of-contents)
-
-### HTML for weighttp source tree
-
-The HTML site generated from the weighttp source code can be browsed here:
-
-http://agentzh.org/misc/code/weighttp/
-
-[Back to TOC](#table-of-contents)
-
-### EPUB for weighttp source tree
-
-The corresponding EPUB ebook can be downloaded from below:
-
-http://agentzh.org/misc/code/weighttp/weighttp.epub
-
-[Back to TOC](#table-of-contents)
-
-### MOBI for weighttp source tree
-
-The corresponding MOBI ebook can be downloaded from below:
-
-http://agentzh.org/misc/code/weighttp/weighttp.mobi
+* [HTML](http://agentzh.org/misc/code/weighttp/)
+* [EPUB](http://agentzh.org/misc/code/weighttp/weighttp.epub)
+* [MOBI](http://agentzh.org/misc/code/weighttp/weighttp.mobi)
 
 [Back to TOC](#table-of-contents)
 
@@ -320,29 +294,9 @@ LuaJIT
 the Lua programming language.
 Lua is a powerful, dynamic and light-weight programming language.
 
-[Back to TOC](#table-of-contents)
-
-### HTML for LuaJIT source tree
-
-The HTML site generated from the LuaJIT source code can be browsed here:
-
-http://agentzh.org/misc/code/luajit2/
-
-[Back to TOC](#table-of-contents)
-
-### EPUB for LuaJIT source tree
-
-The corresponding EPUB ebook can be downloaded from below:
-
-http://agentzh.org/misc/code/luajit2/luajit-2.0-src.epub
-
-[Back to TOC](#table-of-contents)
-
-### MOBI for LuaJIT source tree
-
-The corresponding MOBI ebook can be downloaded from below:
-
-http://agentzh.org/misc/code/luajit2/luajit-2.0-src.mobi
+* [HTML](http://agentzh.org/misc/code/luajit2/)
+* [EPUB](http://agentzh.org/misc/code/luajit2/luajit-2.0-src.epub)
+* [MOBI](http://agentzh.org/misc/code/luajit2/luajit-2.0-src.mobi)
 
 [Back to TOC](#table-of-contents)
 
@@ -353,29 +307,29 @@ Nginx
 and IMAP protocols, as well as a load balancer, HTTP cache, and
 a web server (origin server).
 
-[Back to TOC](#table-of-contents)
-
-### HTML for Nginx source tree
-
-The HTML site generated from the Nginx source code can be browsed here:
-
-http://agentzh.org/misc/code/nginx/
+* [HTML](http://agentzh.org/misc/code/nginx/)
+* [EPUB](http://agentzh.org/misc/code/nginx/nginx-1.7.9.epub)
+* [MOBI](http://agentzh.org/misc/code/nginx/nginx-1.7.9.mobi)
 
 [Back to TOC](#table-of-contents)
 
-### EPUB for Nginx source tree
+GDB
+---
 
-The corresponding EPUB ebook can be downloaded from below:
+The GNU Project Debugger.
 
-http://agentzh.org/misc/code/nginx/nginx-1.7.9.epub
+* [HTML](http://agentzh.org/misc/code/gdb/)
+* [EPUB](http://agentzh.org/misc/code/gdb/gdb.epub)
 
 [Back to TOC](#table-of-contents)
 
-### MOBI for Nginx source tree
+ktap
+----
 
-The corresponding MOBI ebook can be downloaded from below:
+ktap is a lightweight script-based dynamic tracing tool for Linux.
 
-http://agentzh.org/misc/code/nginx/nginx-1.7.9.mobi
+* [HTML](http://agentzh.org/misc/code/ktap/)
+* [EPUB](http://agentzh.org/misc/code/ktap/ktap.epub)
 
 [Back to TOC](#table-of-contents)
 
