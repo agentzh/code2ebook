@@ -53,7 +53,8 @@ specify, for example:
 export PATH=/path/to/code2ebook:$PATH
 
 cd /path/to/your/project/
-src2html.pl --color --cross-reference --line-numbers . 'Your Book Title'
+src2html.pl --tab-width 4 --color --cross-reference \
+            --line-numbers . 'Your Book Title'
 ```
 
 The resulting HTML site can be viewed in a web browser. And the entry
@@ -122,7 +123,11 @@ Options:
 
     -o DIR
     --out-dir DIR         Specify DIR as the target directory holding the HTML
-                          output. Default to "html_out".
+                          output. Default to "./html_out".
+
+    -t N
+    --tab-width N         Specify the tab width (number of spaces) in the
+                          source code. Default to 8.
 
     -x
     --cross-reference     Turn on cross referencing links in the HTML output.

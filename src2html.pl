@@ -42,6 +42,8 @@ my $html_comment = <<_EOC_;
 -->
 _EOC_
 
+my $tab_width = 8;
+
 GetOptions("charset=s",         \$charset,
            "c|color",           \(my $use_colors),
            "e|exclude=s@",      \(my $exclude_files),
@@ -49,6 +51,7 @@ GetOptions("charset=s",         \$charset,
            "i|include=s@",      \(my $include_files),
            "l|line-numbers",    \(my $use_lineno),
            "o|out-dir=s",       \($outdir),
+           "t|tab-width=i",     \($tab_width),
            "x|cross-reference", \(my $use_cross_ref),
            "css=s",             \(my $cssfile))
    or usage(1);
@@ -56,6 +59,8 @@ GetOptions("charset=s",         \$charset,
 if ($help) {
     usage(0);
 }
+
+my $spaces_for_a_tab = ' ' x $tab_width;
 
 my ($tmpfile, $vim_cmd_prefix);
 if ($use_colors) {
@@ -422,7 +427,7 @@ _EOC_
 
     for ($src) {
         s/[ \t]+\n/\n/gs;
-        s/\t/    /gs;
+        s/\t/$spaces_for_a_tab/gs;
         s/\&/\&amp;/g;
         while (s/  /&nbsp; /gs) {}  # use loop here to accomadate
                                     #  odd numbers of spaces.
@@ -839,6 +844,10 @@ Options:
     -o DIR
     --out-dir DIR         Specify DIR as the target directory holding the HTML
                           output. Default to "./html_out".
+
+    -t N
+    --tab-width N         Specify the tab width (number of spaces) in the
+                          source code. Default to 8.
 
     -x
     --cross-reference     Turn on cross referencing links in the HTML output.

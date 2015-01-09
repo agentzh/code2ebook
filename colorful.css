@@ -66,4 +66,6 @@ code li:before {
     color: #999;
     padding-right: 0.5em;
     padding-left: 0.4em;
+    list-style-position: inside;
+    text-align: right
 }
