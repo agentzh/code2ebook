@@ -89,13 +89,12 @@ END {
 }
 
 my %files;
-my %func_by_files;
-my %global_by_files;
-my %type_by_files;
-my %macro_by_files;
 my %linkables;
 my %multi_dest_linkable_cache;
 my %child_pids;
+
+my %lang_kinds;
+my %references;
 
 $SIG{INT} = sub {
     for my $pid (keys %child_pids) {
@@ -129,6 +128,23 @@ while (<$in>) {
         if ($ext !~ /\bhtml?$/i) {
             push @$include_files, @exts;
         }
+    }
+}
+close $in;
+
+$cmd = "ctags --list-kinds=all";
+open $in, "$cmd|"
+    or die "Cannot run command $cmd: $!\n";
+my $lang;
+while (<$in>) {
+    my @ms = split /\s+/;
+    if(@ms == 1){
+        $lang = $ms[0];
+    }
+    elsif(@ms >= 3 and $ms[-1] ne '[off]' ){
+        shift @ms; # empty string
+        my $kind = shift @ms;
+        $lang_kinds{$lang}{$kind} = join(' ', @ms);
     }
 }
 close $in;
@@ -207,9 +223,6 @@ sub process_tags ($) {
         next if /^!/;
         if (/^([^\t]+)\s*\t([^\t]+)\t(\d+);"\t(\S+)\tlanguage:(\S+)/) {
             my ($name, $file, $lineno, $kind, $lang) = ($1, $2, $3, $4, $5);
-            if ($lang eq 'C++') {
-                $lang = 'C';
-            }
 
             if (!exists $files{$file} && $lang ne 'HTML') {
                 $files{$file} = $lang;
@@ -219,30 +232,16 @@ sub process_tags ($) {
             $name =~ s/^\s+|\s+$//g;
             my $rec = [$name, $file, $lineno, $kind, $lang];
 
-            my $found;
-            if ($kind eq 'f') {
-                $found = 1;
-                add_elem_to_hash(\%func_by_files, $file, $rec);
-
-            } elsif ($kind eq 'v') {
-                $found = 1;
-                #warn "adding global variable $name at $file:$lineno ...\n";
-                add_elem_to_hash(\%global_by_files, $file, $rec);
-
-            } elsif ($kind =~ /^[stug]$/) {
-                $found = 1;
-                #warn "adding custom type $name at $file:$lineno ...\n";
-                add_elem_to_hash(\%type_by_files, $file, $rec);
-
-            } elsif ($kind eq 'd') {
-                $found = 1;
-                add_elem_to_hash(\%macro_by_files, $file, $rec);
+            if(defined $lang_kinds{$lang}{$kind} ){
+                if(!defined $references{$file}{$kind}){
+                    $references{$file}{$kind} = [];
+                }
+                push $references{$file}{$kind}, $rec;
+                if ($use_cross_ref) {
+                    add_elem_to_hash(\%linkables, $name, $rec);
+                }
             }
-
-            if ($found && $use_cross_ref) {
-                add_elem_to_hash(\%linkables, $name, $rec);
-            }
-
+            
         } else {
             warn "Unknown tags file line: ", quotemeta($_);
         }
@@ -387,36 +386,18 @@ sub write_src_html ($$$) {
 
     my $preamble = '';
 
-    my $tag = $global_by_files{$infile};
-    if (defined $tag) {
-        $preamble .= <<_EOC_;
- <h4>Global variables defined</h4>
+    my $refs = $references{$infile};
+    if (defined $refs) {
+        my @kinds = (keys $refs);
+        my $lang = $refs->{$kinds[0]}[0][4]; # use first
+        my $kind_meaning = $lang_kinds{$lang};
+        for my $kind (@kinds){
+            my $kind_title = ucfirst $kind_meaning->{$kind};
+            $preamble .= <<_EOC_;
+<h4>$kind_title</h4>
 _EOC_
-        gen_tag_link_list(\$preamble, $tag, \$src, \@lineno_index);
-    }
-
-    $tag = $type_by_files{$infile};
-    if (defined $tag) {
-        $preamble .= <<_EOC_;
- <h4>Data types defined</h4>
-_EOC_
-        gen_tag_link_list(\$preamble, $tag, \$src, \@lineno_index);
-    }
-
-    $tag = $func_by_files{$infile};
-    if (defined $tag) {
-        $preamble .= <<_EOC_;
- <h4>Functions defined</h4>
-_EOC_
-        gen_tag_link_list(\$preamble, $tag, \$src, \@lineno_index);
-    }
-
-    $tag = $macro_by_files{$infile};
-    if (defined $tag) {
-        $preamble .= <<_EOC_;
- <h4>Macros defined</h4>
-_EOC_
-        gen_tag_link_list(\$preamble, $tag, \$src, \@lineno_index);
+            gen_tag_link_list(\$preamble, $refs->{$kind}, \$src, \@lineno_index);
+        }
     }
 
     if ($preamble) {
