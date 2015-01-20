@@ -31,6 +31,7 @@ sub is_included_file ($);
 sub canon_file_name ($);
 sub assemble_wildcard_regex ($);
 sub create_dir ($);
+sub src_to_out_path($);
 
 my $charset = 'UTF-8';
 
@@ -110,8 +111,12 @@ $SIG{INT} = sub {
 my $src_root = shift or die "No source directory specified.\n";
 my $pkg_name = shift or die "No book title specified.\n";
 
-if ($src_root =~ m{^/}) {
-    die "Absolute directory name \"$src_root\" not supported yet.\n";
+
+$src_root = File::Spec->rel2abs($src_root);
+$outdir = File::Spec->rel2abs($outdir);
+
+if( -d $outdir ){
+    die "outdir exists";
 }
 
 if (!defined $include_files) {
@@ -154,7 +159,8 @@ my $cross_ref_pattern;
 my $is_included_pattern = assemble_wildcard_regex $include_files;
 my $is_excluded_pattern = assemble_wildcard_regex $exclude_files;
 
-$src_root = File::Spec->abs2rel($src_root);
+# $src_root = File::Spec->abs2rel($src_root);
+
 warn "processing \"$src_root\" with ctags...\n";
 my $tagfile = './src2html.tags';
 shell "ctags --exclude='*.html' --exclude='*.htm' -f $tagfile -n -u "
@@ -275,6 +281,11 @@ sub add_elem_to_hash ($$$) {
     }
 }
 
+sub src_to_out_path($){
+    my ($abs_src_path) = @_;
+    my $rel_path = File::Spec->abs2rel($abs_src_path, $src_root);
+    return File::Spec->catfile($outdir, $rel_path);
+}
 sub process_dir ($) {
     my ($dir) = @_;
 
@@ -293,7 +304,7 @@ sub process_dir ($) {
                 #warn "Processing file $fname...";
                 if ($gen_out_dir) {
                     undef $gen_out_dir;
-                    create_dir "$outdir/$dir";
+                    create_dir src_to_out_path($dir);
                 }
 
                 write_src_html($dir, $fname, $rel_path_cache);
@@ -316,7 +327,7 @@ sub process_dir ($) {
     if (@items) {
         if ($gen_out_dir) {
             undef $gen_out_dir;
-            create_dir "$outdir/$dir";
+            create_dir src_to_out_path($dir);
         }
 
         write_index($dir, \@items);
@@ -441,7 +452,8 @@ _EOC_
         process_cross_ref_esc_seqs(\$src, $dir, $infile, $rel_path_cache);
     }
 
-    my $outfile = "$outdir/$infile.html";
+    $infile = File::Spec->abs2rel($infile, $src_root);
+    my $outfile = File::Spec->catfile($outdir, "$infile.html");
     open my $out, ">$outfile" or
         die "Can't open $outfile for writing: $!\n";
     print $out <<_EOC_;
@@ -676,7 +688,8 @@ sub is_tag_array ($) {
 sub write_index ($$) {
     my ($dir, $ritems) = @_;
 
-    my $outfile = "$outdir/$dir/index.html";
+    $dir = File::Spec->abs2rel($dir, $src_root);
+    my $outfile =  File::Spec->catfile($outdir, $dir, "index.html");
     open my $out, ">$outfile" or
         die "Can't open $outfile for writing: $!\n";
 
@@ -714,15 +727,15 @@ sub gen_cross_ref_link ($$$$$$) {
     if ($file) {
         $htmlfile = $rel_path_cache->{$file};
         if (!defined $htmlfile) {
-            $htmlfile = File::Spec->abs2rel($file, $curdir) . ".html";
+            $htmlfile = File::Spec->abs2rel(File::Spec->abs2rel($file, $src_root), File::Spec->abs2rel($curdir, $src_root)) . ".html";
             $rel_path_cache->{$file} = $htmlfile;
         }
 
-        $title = "$file:$lineno";
+        $title = File::Spec->abs2rel($file, $src_root) . ":$lineno";
 
     } else {
         $htmlfile = "";
-        $title = "$curfile:$lineno";
+        $title = File::Spec->abs2rel($curfile, $src_root). ":$lineno";
     }
 
     return qq!<a href="$htmlfile#L$lineno" title="$title">$label</a>!;
