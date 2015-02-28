@@ -146,7 +146,7 @@ shell "ctags --exclude='*.html' --exclude='*.htm' -f $tagfile -n -u "
 
 my $css;
 {
-    $cssfile ||= "$FindBin::Bin/colorful.css";
+    $cssfile ||= "$FindBin::Bin/default.css";
     open my $in, $cssfile
         or die "cannot open $cssfile for reading: $!\n";
     $css = do { local $/; <$in> };
@@ -704,6 +704,9 @@ $html_comment
 <html>
 <head>
  <title>$dir/ - $pkg_name</title>
+ <style>
+$css
+ </style>
 </head>
 <body>
  <h3>$dir/ - $pkg_name</h3>

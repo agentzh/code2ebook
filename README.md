@@ -81,7 +81,7 @@ a web browser on either a PC or a tablet.
 It is worth mentioning that if you do not like the default colors or have further
 style requirements, you can just specify the `--css FILE` option to make
 the HTML pages
-use your own CSS file. You can start with the default CSS file (named `colorful.css`)
+use your own CSS file. You can start with the default CSS file (named `default.css`)
 in this project.
 
 [Back to TOC](#table-of-contents)
