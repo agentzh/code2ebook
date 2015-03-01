@@ -3,8 +3,14 @@ body {
     text-align-last: left;
 }
 
+ul.toc {
+    line-height: 200%;
+    font-size: 150%;
+}
+
 code {
     font-family: consolas, monospace;
+    line-height: 130%;
 }
 
 span.Constant {

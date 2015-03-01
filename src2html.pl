@@ -390,7 +390,7 @@ sub write_src_html ($$$) {
     my $tag = $global_by_files{$infile};
     if (defined $tag) {
         $preamble .= <<_EOC_;
- <h4>Global variables defined</h4>
+ <h2>Global variables defined</h2>
 _EOC_
         gen_tag_link_list(\$preamble, $tag, \$src, \@lineno_index);
     }
@@ -398,7 +398,7 @@ _EOC_
     $tag = $type_by_files{$infile};
     if (defined $tag) {
         $preamble .= <<_EOC_;
- <h4>Data types defined</h4>
+ <h2>Data types defined</h2>
 _EOC_
         gen_tag_link_list(\$preamble, $tag, \$src, \@lineno_index);
     }
@@ -406,7 +406,7 @@ _EOC_
     $tag = $func_by_files{$infile};
     if (defined $tag) {
         $preamble .= <<_EOC_;
- <h4>Functions defined</h4>
+ <h2>Functions defined</h2>
 _EOC_
         gen_tag_link_list(\$preamble, $tag, \$src, \@lineno_index);
     }
@@ -414,14 +414,14 @@ _EOC_
     $tag = $macro_by_files{$infile};
     if (defined $tag) {
         $preamble .= <<_EOC_;
- <h4>Macros defined</h4>
+ <h2>Macros defined</h2>
 _EOC_
         gen_tag_link_list(\$preamble, $tag, \$src, \@lineno_index);
     }
 
     if ($preamble) {
         $preamble .= <<_EOC_;
- <h4>Source code</h4>
+ <h2>Source code</h2>
 _EOC_
     }
 
@@ -474,7 +474,7 @@ $css
   </style>
  </head>
  <body>
-  <h3>$infile - $pkg_name</h3>
+  <h1>$infile - $pkg_name</h1>
 $preamble
   <code>$src</code>
  </body>
@@ -598,7 +598,7 @@ sub gen_tag_link_list ($$$$) {
     my ($preamble_ref, $tag, $src_ref, $lineno_index) = @_;
 
     $$preamble_ref .= <<_EOC_;
- <ul>
+ <ul class="toc">
 _EOC_
 
     if (is_tag_array($tag)) {
@@ -709,8 +709,8 @@ $css
  </style>
 </head>
 <body>
- <h3>$dir/ - $pkg_name</h3>
- <ul>
+ <h1>$dir/ - $pkg_name</h1>
+ <ul class="toc">
 _EOC_
     for my $item (sort { $a->[1] cmp $b->[1] } @$ritems) {
         my ($type, $entity) = @$item;
