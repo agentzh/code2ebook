@@ -3,6 +3,17 @@ body {
     text-align-last: left;
 }
 
+.nav-bar {
+    font-size: 120%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.nav-link {
+    padding-left: 5em;
+    padding-right: 5em;
+}
+
 ul.toc {
     line-height: 200%;
     font-size: 150%;

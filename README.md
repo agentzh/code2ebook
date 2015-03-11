@@ -54,7 +54,7 @@ export PATH=/path/to/code2ebook:$PATH
 
 cd /path/to/your/project/
 src2html.pl --tab-width 4 --color --cross-reference \
-            --line-numbers . 'Your Book Title'
+            --navigator --line-numbers . 'Your Book Title'
 ```
 
 The resulting HTML site can be viewed in a web browser. And the entry
@@ -121,6 +121,10 @@ Options:
     --line-numbers        Display source code line numbers in the HTML
                           output.
 
+    -n
+    --navigator           Generate a navigator bar containing the "Top Level"
+                          and "One Level Up" links in the HTML output pages.
+
     -o DIR
     --out-dir DIR         Specify DIR as the target directory holding the HTML
                           output. Default to "./html_out".
@@ -173,7 +177,7 @@ You can explicitly include extra source files by specifying as many
 `--include=PATTERN` options as you like, as in
 
 ```bash
-src2html.pl --include='src/*.blah' --include='*foo*' --color . "my project"
+src2html.pl --include='src/*.blah' --include='*foo*' . "my project"
 ```
 
 Similarly, you can also exclude files by specifying one or more

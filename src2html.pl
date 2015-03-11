@@ -12,9 +12,9 @@ use File::Spec ();
 use File::Path qw( make_path );
 
 sub usage ($);
-sub process_dir ($);
-sub write_src_html ($$$);
-sub write_index ($$);
+sub process_dir ($$);
+sub write_src_html ($$$$);
+sub write_index ($$$);
 sub shell ($);
 sub process_tags ($);
 sub add_elem_to_hash ($$$);
@@ -31,6 +31,7 @@ sub is_included_file ($);
 sub canon_file_name ($);
 sub assemble_wildcard_regex ($);
 sub create_dir ($);
+sub gen_nav ($$);
 
 my $charset = 'UTF-8';
 
@@ -49,6 +50,7 @@ GetOptions("charset=s",         \$charset,
            "e|exclude=s@",      \(my $exclude_files),
            "h|help",            \(my $help),
            "i|include=s@",      \(my $include_files),
+           "n|navigator",       \(my $use_navigator),
            "l|line-numbers",    \(my $use_lineno),
            "o|out-dir=s",       \($outdir),
            "t|tab-width=i",     \($tab_width),
@@ -159,7 +161,7 @@ if (!-d $outdir) {
     create_dir "$outdir";
 }
 
-process_dir($src_root);
+process_dir($src_root, 0);
 
 sub shell ($) {
     my $cmd = shift;
@@ -276,8 +278,8 @@ sub add_elem_to_hash ($$$) {
     }
 }
 
-sub process_dir ($) {
-    my ($dir) = @_;
+sub process_dir ($$) {
+    my ($dir, $level) = @_;
 
     opendir my $dh, $dir or die "Can't open $dir for reading: $!\n";
 
@@ -297,7 +299,7 @@ sub process_dir ($) {
                     create_dir "$outdir/$dir";
                 }
 
-                write_src_html($dir, $fname, $rel_path_cache);
+                write_src_html($dir, $fname, $rel_path_cache, $level + 1);
                 push @items, [file => $entity];
                 next;
             }
@@ -305,7 +307,7 @@ sub process_dir ($) {
 
         if (-d $fname && $entity !~ /^\./) {
             ## dir: $entity
-            my $count = process_dir($fname);
+            my $count = process_dir($fname, $level + 1);
             if ($count) {
                 push @items, [dir => $entity];
             }
@@ -320,7 +322,7 @@ sub process_dir ($) {
             create_dir "$outdir/$dir";
         }
 
-        write_index($dir, \@items);
+        write_index($dir, \@items, $level);
     }
 
     return scalar @items;
@@ -352,8 +354,8 @@ sub is_included_file ($) {
     return undef;
 }
 
-sub write_src_html ($$$) {
-    my ($dir, $infile, $rel_path_cache) = @_;
+sub write_src_html ($$$$) {
+    my ($dir, $infile, $rel_path_cache, $level) = @_;
 
     #warn "Reading source file $infile\n";
 
@@ -460,6 +462,8 @@ _EOC_
         process_cross_ref_esc_seqs(\$src, $dir, $infile, $rel_path_cache);
     }
 
+    my $nav = gen_nav($level, 1);
+
     my $outfile = "$outdir/$infile.html";
     open my $out, ">$outfile" or
         die "Can't open $outfile for writing: $!\n";
@@ -474,9 +478,11 @@ $css
   </style>
  </head>
  <body>
+$nav
   <h1>$infile - $pkg_name</h1>
 $preamble
   <code>$src</code>
+$nav
  </body>
 </html>
 _EOC_
@@ -692,12 +698,29 @@ sub is_tag_array ($) {
     ref $t && ref $t eq 'ARRAY' && ref $t->[0];
 }
 
-sub write_index ($$) {
-    my ($dir, $ritems) = @_;
+sub gen_nav ($$) {
+    my ($level, $is_leaf) = @_;
+    return '' if !$use_navigator || (!$is_leaf && $level == 0);
+
+    my $parent = $is_leaf ? "./" : "../";
+    my $root = $is_leaf ? "../" x ($level - 1) : "../" x $level;
+
+    return <<_EOC_;
+ <p class="nav-bar">
+  <span class="nav-link"><a href="${parent}index.html">One Level Up</a></span>
+  <span class="nav-link"><a href="${root}index.html">Top Level</a></span>
+ </p>
+_EOC_
+}
+
+sub write_index ($$$) {
+    my ($dir, $ritems, $level) = @_;
 
     my $outfile = "$outdir/$dir/index.html";
     open my $out, ">$outfile" or
         die "Can't open $outfile for writing: $!\n";
+
+    my $nav = gen_nav($level, undef);
 
     print $out <<_EOC_;
 $html_comment
@@ -709,9 +732,11 @@ $css
  </style>
 </head>
 <body>
+$nav
  <h1>$dir/ - $pkg_name</h1>
  <ul class="toc">
 _EOC_
+
     for my $item (sort { $a->[1] cmp $b->[1] } @$ritems) {
         my ($type, $entity) = @$item;
         if ($type eq 'file') {
@@ -720,8 +745,10 @@ _EOC_
             print $out qq{  <li><a href="$entity/index.html">$entity/</a></li>\n};
         }
     }
+
     print $out <<_EOC_;
  </ul>
+$nav
 </body>
 </html>
 _EOC_
@@ -843,6 +870,10 @@ Options:
     -l
     --line-numbers        Display source code line numbers in the HTML
                           output.
+
+    -n
+    --navigator           Generate a navigator bar containing the "Top Level"
+                          and "One Level Up" links in the HTML output pages.
 
     -o DIR
     --out-dir DIR         Specify DIR as the target directory holding the HTML
