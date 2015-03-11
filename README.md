@@ -17,6 +17,7 @@ Table of Contents
     * [Convert the HTML site to ebooks in various formats](#convert-the-html-site-to-ebooks-in-various-formats)
         * [Generate MOBI ebooks for Kindle](#generate-mobi-ebooks-for-kindle)
         * [Generate EPUB ebooks for iPad/iPhone](#generate-epub-ebooks-for-ipadiphone)
+        * [Generate PDF ebooks for Sony Digital Paper](#generate-pdf-ebooks-for-sony-digital-paper)
 * [Prerequisites](#prerequisites)
 * [Sample eBooks](#sample-ebooks)
     * [weighttp](#weighttp)
@@ -250,6 +251,30 @@ iPad or iPhone.
 
 [Back to TOC](#table-of-contents)
 
+### Generate PDF ebooks for Sony Digital Paper
+
+For example, to generate a `.pdf` file for Sony Digital Paper:
+
+```bash
+
+cd /path/to/your/project/
+
+# assuming we specified the "." directory while running src2html.pl
+ebook-convert html_out/index.html my-project.pdf \
+	--override-profile-size \
+	--paper-size a4 \
+	--pdf-default-font-size 12 \
+	--pdf-mono-font-size 12 \
+	--margin-left 10 --margin-right 10 \
+	--margin-top 10 --margin-bottom 10 \
+	--page-breaks-before='/'
+```
+
+In this example, the resulting ebook file is named `my-project.pdf` in the
+current working directory, which is readily readable in Sony Digital Paper or other e-reader devices supporting PDF ebooks (but you may need to adjust the `--paper-size a4` option if your device screen is too small for A4 pages).
+
+[Back to TOC](#table-of-contents)
+
 Prerequisites
 =============
 
@@ -293,6 +318,7 @@ is a lightweight and small benchmarking tool for webservers.
 * [HTML](http://agentzh.org/misc/code/weighttp/)
 * [EPUB](http://agentzh.org/misc/code/weighttp/weighttp.epub)
 * [MOBI](http://agentzh.org/misc/code/weighttp/weighttp.mobi)
+* [PDF](http://agentzh.org/misc/code/weighttp/weighttp.pdf)
 
 [Back to TOC](#table-of-contents)
 
@@ -306,6 +332,7 @@ Lua is a powerful, dynamic and light-weight programming language.
 * [HTML](http://agentzh.org/misc/code/luajit2/)
 * [EPUB](http://agentzh.org/misc/code/luajit2/luajit-2.0-src.epub)
 * [MOBI](http://agentzh.org/misc/code/luajit2/luajit-2.0-src.mobi)
+* [PDF](http://agentzh.org/misc/code/luajit2/luajit-2.0-src.pdf)
 
 [Back to TOC](#table-of-contents)
 
@@ -317,8 +344,9 @@ and IMAP protocols, as well as a load balancer, HTTP cache, and
 a web server (origin server).
 
 * [HTML](http://agentzh.org/misc/code/nginx/)
-* [EPUB](http://agentzh.org/misc/code/nginx/nginx-1.7.9.epub)
-* [MOBI](http://agentzh.org/misc/code/nginx/nginx-1.7.9.mobi)
+* [EPUB](http://agentzh.org/misc/code/nginx/nginx-1.7.10.epub)
+* [MOBI](http://agentzh.org/misc/code/nginx/nginx-1.7.10.mobi)
+* [PDF](http://agentzh.org/misc/code/nginx/nginx-1.7.10.pdf)
 
 [Back to TOC](#table-of-contents)
 
@@ -339,6 +367,8 @@ ktap is a lightweight script-based dynamic tracing tool for Linux.
 
 * [HTML](http://agentzh.org/misc/code/ktap/)
 * [EPUB](http://agentzh.org/misc/code/ktap/ktap.epub)
+* [MOBI](http://agentzh.org/misc/code/ktap/ktap.mobi)
+* [PDF](http://agentzh.org/misc/code/ktap/ktap.pdf)
 
 [Back to TOC](#table-of-contents)
 
