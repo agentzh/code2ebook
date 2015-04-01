@@ -395,8 +395,7 @@ for example.
 TODO
 ====
 
-* Add support for the `--include-only=PATTERN` options to the
-[src2html.pl](#src2htmlpl) tool.
+* Better support for languages like Java.
 
 [Back to TOC](#table-of-contents)
 
