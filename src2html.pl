@@ -50,6 +50,7 @@ GetOptions("charset=s",         \$charset,
            "e|exclude=s@",      \(my $exclude_files),
            "h|help",            \(my $help),
            "i|include=s@",      \(my $include_files),
+           "include-only=s@",   \(my $include_only_files),
            "n|navigator",       \(my $use_navigator),
            "l|line-numbers",    \(my $use_lineno),
            "o|out-dir=s",       \($outdir),
@@ -138,13 +139,26 @@ close $in;
 my $cross_ref_pattern;
 
 my $is_included_pattern = assemble_wildcard_regex $include_files;
+my $is_included_only_pattern;
+if (defined $include_only_files) {
+    $is_included_only_pattern = assemble_wildcard_regex $include_only_files;
+}
 my $is_excluded_pattern = assemble_wildcard_regex $exclude_files;
 
 $src_root = File::Spec->abs2rel($src_root);
 warn "processing \"$src_root\" with ctags...\n";
 my $tagfile = './src2html.tags';
-shell "ctags --exclude='*.html' --exclude='*.htm' -f $tagfile -n -u "
+
+$cmd = "ctags --exclude='*.html' --exclude='*.htm' -f $tagfile -n -u "
     . "--fields=kl -R '$src_root'";
+if ($exclude_files) {
+    for my $pat (@$exclude_files) {
+        (my $p = $pat) =~ s/\/\*//;
+        $cmd .= " --exclude='$p'";
+    }
+}
+#warn $cmd;
+shell $cmd;
 
 my $css;
 {
@@ -341,7 +355,16 @@ sub is_excluded_file ($) {
     if (-l $file) {
         return 1;
     }
-    defined $is_excluded_pattern ? $file =~ $is_excluded_pattern : undef;
+
+    if ($is_excluded_pattern && $file =~ $is_excluded_pattern) {
+        return 1;
+    }
+
+    if ($is_included_only_pattern) {
+        return $file !~ $is_included_only_pattern;
+    }
+
+    return undef;
 }
 
 sub is_included_file ($) {
@@ -828,13 +851,14 @@ sub assemble_wildcard_regex ($) {
         return undef;
     }
 
-    for (@$list) {
+    my @new = @$list;
+    for (@new) {
         s#([\|+^\${}()\\])#\\$1#g;
         s/\./\\./g;
         s/\*/.*?/g;
     }
 
-    my $s = "^(?:" . join('|', @$list) . ')$';
+    my $s = "^(?:" . join('|', @new) . ')$';
     #warn "regex: $s\n";
     return qr/$s/;
 }
@@ -866,6 +890,11 @@ Options:
                           to include in the HTML output. Wildcards
                           like * and [] are supported. And multiple occurances
                           of this option are allowed.
+
+    --include-only PATTERN
+                          Specify the files to be processed and all other
+                          files are excluded. This option takes higher
+                          priority than "--include PATTERN".
 
     -l
     --line-numbers        Display source code line numbers in the HTML

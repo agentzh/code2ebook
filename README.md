@@ -118,6 +118,11 @@ Options:
                           like * and [] are supported. And multiple occurances
                           of this option are allowed.
 
+    --include-only PATTERN
+                          Specify the files to be processed and all other
+                          files are excluded. This option takes higher
+                          priority than "--include PATTERN".
+
     -l
     --line-numbers        Display source code line numbers in the HTML
                           output.
