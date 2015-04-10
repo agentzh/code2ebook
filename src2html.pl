@@ -80,7 +80,7 @@ if ($use_colors) {
     );
 
     $vim_cmd_prefix =
-        "vim -E -X -R -u NONE -i NONE -c '" . join("|", @vim_cmds). "' -- ";
+        "vim -E -X -R -u ~/.vimrc -i NONE -c '" . join("|", @vim_cmds). "' -- ";
 }
 
 END {
