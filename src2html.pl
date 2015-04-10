@@ -495,7 +495,7 @@ $html_comment
 <html>
  <head>
   <title>$infile - $pkg_name</title>
-  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta http-equiv="Content-Type" content="text/html;charset=$charset">
   <style>
 $css
   </style>
