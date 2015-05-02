@@ -702,7 +702,7 @@ sub tag_line_by_lineno ($$$$) {
     my $pos = $lineno_index->[$lineno];
     if (!defined $pos) {
         die "Line $lineno not found in file $file (only seen ",
-            scalar(@$lineno), " lines)\n";
+            scalar(@$lineno_index), " lines)\n";
     }
     pos $$src_ref = $pos;
     my $replace = "_SRC2KINDLE_L${lineno}_";
