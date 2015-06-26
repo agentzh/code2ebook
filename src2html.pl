@@ -319,7 +319,7 @@ sub process_dir ($$) {
             }
         }
 
-        if (-d $fname && $entity !~ /^\./) {
+        if (-d $fname && $entity !~ /^\./ && !-l $fname) {
             ## dir: $entity
             my $count = process_dir($fname, $level + 1);
             if ($count) {
