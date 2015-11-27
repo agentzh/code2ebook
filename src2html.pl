@@ -13,7 +13,7 @@ use File::Path qw( make_path );
 
 sub usage ($);
 sub process_dir ($$);
-sub write_src_html ($$$$);
+sub write_src_html ($$$$$);
 sub write_index ($$$);
 sub shell ($);
 sub process_tags ($);
@@ -45,6 +45,12 @@ _EOC_
 
 my $tab_width = 8;
 
+my $file_count = 0;
+
+my $jobs = 1;
+
+my $parallel_manager;
+
 GetOptions("charset=s",         \$charset,
            "c|color",           \(my $use_colors),
            "e|exclude=s@",      \(my $exclude_files),
@@ -55,12 +61,18 @@ GetOptions("charset=s",         \$charset,
            "l|line-numbers",    \(my $use_lineno),
            "o|out-dir=s",       \($outdir),
            "t|tab-width=i",     \($tab_width),
+           "j|jobs=i",          \($jobs),
            "x|cross-reference", \(my $use_cross_ref),
            "css=s",             \(my $cssfile))
    or usage(1);
 
 if ($help) {
     usage(0);
+}
+
+if ($jobs > 1) {
+    require Parallel::ForkManager;
+    $parallel_manager = new Parallel::ForkManager($jobs);
 }
 
 my $spaces_for_a_tab = ' ' x $tab_width;
@@ -130,7 +142,7 @@ while (<$in>) {
     shift @exts;
     for my $ext (@exts) {
         if ($ext !~ /\bhtml?$/i) {
-            push @$include_files, @exts;
+            push @$include_files, $ext;
         }
     }
 }
@@ -313,7 +325,20 @@ sub process_dir ($$) {
                     create_dir "$outdir/$dir";
                 }
 
-                write_src_html($dir, $fname, $rel_path_cache, $level + 1);
+                $file_count += 1;
+
+                if ($jobs > 1) {
+                    # Forks and returns the pid for the child:
+                    my $pid = $parallel_manager->start and next;
+
+                    write_src_html($dir, $fname, $rel_path_cache, $level + 1, $file_count);
+
+                    $parallel_manager->finish; # Terminates the child process
+
+                } else {
+                    write_src_html($dir, $fname, $rel_path_cache, $level + 1, $file_count);
+                }
+
                 push @items, [file => $entity];
                 next;
             }
@@ -337,6 +362,10 @@ sub process_dir ($$) {
         }
 
         write_index($dir, \@items, $level);
+    }
+
+    if ($level == 0) {
+        warn "Finished, total file count: $file_count\n";
     }
 
     return scalar @items;
@@ -377,14 +406,22 @@ sub is_included_file ($) {
     return undef;
 }
 
-sub write_src_html ($$$$) {
-    my ($dir, $infile, $rel_path_cache, $level) = @_;
+sub write_src_html ($$$$$) {
+    my ($dir, $infile, $rel_path_cache, $level, $file_id) = @_;
 
     #warn "Reading source file $infile\n";
 
     my $infile2;
 
     if ($use_colors) {
+        if ($jobs > 1) {
+            my $tmpfile2 = "${tmpfile}_${file_id}";
+            $vim_cmd_prefix =~ s/$tmpfile/$tmpfile2/;
+
+            $tmpfile = $tmpfile2;
+            #warn "$tmpfile\n";
+        }
+
         shell "$vim_cmd_prefix $infile";
         $infile2 = $tmpfile;
 
@@ -911,6 +948,11 @@ Options:
     -t N
     --tab-width N         Specify the tab width (number of spaces) in the
                           source code. Default to 8.
+
+    -j N
+    --jobs N              Specify the number of jobs to execute simultaneously.
+                          Default to 1. Parallel::ForkManager Module is required
+                          when the number is bigger than 1.
 
     -x
     --cross-reference     Turn on cross referencing links in the HTML output.
