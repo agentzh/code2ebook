@@ -325,7 +325,9 @@ sub process_dir ($$) {
                     create_dir "$outdir/$dir";
                 }
 
-                $file_count += 1;
+                $file_count++;
+
+                push @items, [file => $entity];
 
                 if ($jobs > 1) {
                     # Forks and returns the pid for the child:
@@ -337,10 +339,8 @@ sub process_dir ($$) {
 
                 } else {
                     write_src_html($dir, $fname, $rel_path_cache, $level + 1, $file_count);
+                    next;
                 }
-
-                push @items, [file => $entity];
-                next;
             }
         }
 
@@ -365,6 +365,9 @@ sub process_dir ($$) {
     }
 
     if ($level == 0) {
+        if ($jobs > 1) {
+            $parallel_manager->wait_all_children;
+        }
         warn "Finished, total file count: $file_count\n";
     }
 
@@ -951,8 +954,8 @@ Options:
 
     -j N
     --jobs N              Specify the number of jobs to execute simultaneously.
-                          Default to 1. Parallel::ForkManager Module is required
-                          when the number is bigger than 1.
+                          Default to 1. CPAN module Parallel::ForkManager is
+                          required when the number is bigger than 1.
 
     -x
     --cross-reference     Turn on cross referencing links in the HTML output.

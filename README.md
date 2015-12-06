@@ -12,6 +12,7 @@ Table of Contents
         * [src2html.pl](#src2htmlpl)
             * [Change CSS style](#change-css-style)
             * [Usage](#usage)
+            * [Speed up on multi-core processor](#speed-up-on-multi-core-processor)
             * [HTML output features](#html-output-features)
             * [Source file types recognized](#source-file-types-recognized)
     * [Convert the HTML site to ebooks in various formats](#convert-the-html-site-to-ebooks-in-various-formats)
@@ -141,13 +142,42 @@ Options:
 
     -j N
     --jobs N              Specify the number of jobs to execute simultaneously.
-                          Default to 1. Parallel::ForkManager Module is required
-                          when the number is bigger than 1.
+                          Default to 1. CPAN module Parallel::ForkManager is
+                          required when the number is bigger than 1.
 
     -x
     --cross-reference     Turn on cross referencing links in the HTML output.
 
 Copyright (C) Yichun Zhang (agentzh) <agentzh@gmail.com>.
+```
+
+[Back to TOC](#table-of-contents)
+
+#### Speed up on multi-core processor
+
+You are recommended to use the option `-j N` to speed up on a multi-core
+processor when you have a large code base. Just a quick reminder, CPAN module
+Parallel::ForkManager is required when the number `N` is bigger than 1.
+
+The following example shows that it takes more than 30 minutes with `-j 1` to
+generate an HTML tree from the ngx_openresty-1.9.3.2 code base. While it takes
+less than 3 minutes with `-j 18` to generate the same HTML tree on my 24-core
+processor.
+
+```bash
+time src2html.pl --navigator --color --cross-reference --line-numbers \
+                 -j 1 ngx_openresty-1.9.3.2/bundle openresty-1.9.3.2
+...
+real    30m43.686s
+user    30m26.818s
+sys     0m15.420s
+
+time src2html.pl --navigator --color --cross-reference --line-numbers \
+                 -j 18 ngx_openresty-1.9.3.2/bundle openresty-1.9.3.2
+...
+real    2m49.172s
+user    35m56.337s
+sys     0m28.412s
 ```
 
 [Back to TOC](#table-of-contents)
