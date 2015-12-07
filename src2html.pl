@@ -938,6 +938,11 @@ Options:
                           files are excluded. This option takes higher
                           priority than "--include PATTERN".
 
+    -j N
+    --jobs N              Specify the number of jobs to execute simultaneously.
+                          Default to 1. CPAN module Parallel::ForkManager is
+                          required when the number is bigger than 1.
+
     -l
     --line-numbers        Display source code line numbers in the HTML
                           output.
@@ -953,11 +958,6 @@ Options:
     -t N
     --tab-width N         Specify the tab width (number of spaces) in the
                           source code. Default to 8.
-
-    -j N
-    --jobs N              Specify the number of jobs to execute simultaneously.
-                          Default to 1. CPAN module Parallel::ForkManager is
-                          required when the number is bigger than 1.
 
     -x
     --cross-reference     Turn on cross referencing links in the HTML output.
