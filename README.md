@@ -12,7 +12,7 @@ Table of Contents
         * [src2html.pl](#src2htmlpl)
             * [Change CSS style](#change-css-style)
             * [Usage](#usage)
-            * [Speed up on multi-core processor](#speed-up-on-multi-core-processor)
+            * [Speed up on multi-core processors](#speed-up-on-multi-core-processors)
             * [HTML output features](#html-output-features)
             * [Source file types recognized](#source-file-types-recognized)
     * [Convert the HTML site to ebooks in various formats](#convert-the-html-site-to-ebooks-in-various-formats)
@@ -153,27 +153,29 @@ Copyright (C) Yichun Zhang (agentzh) <agentzh@gmail.com>.
 
 [Back to TOC](#table-of-contents)
 
-#### Speed up on multi-core processor
+#### Speed up on multi-core processors
 
 You are recommended to use the option `-j N` to speed up on a multi-core
 processor when you have a large code base. Just a quick reminder, CPAN module
-Parallel::ForkManager is required when the number `N` is bigger than 1.
+[Parallel::ForkManager](https://metacpan.org/pod/Parallel::ForkManager) is
+required when the number `N` is bigger than 1.
 
 The following example shows that it takes more than 30 minutes with `-j 1` to
-generate an HTML tree from the ngx_openresty-1.9.3.2 code base. While it takes
-less than 3 minutes with `-j 18` to generate the same HTML tree on my 24-core
-processor.
+generate an HTML tree from the [ngx_openresty-1.9.3.2]
+(https://openresty.org/download/ngx_openresty-1.9.3.2.tar.gz) code base. While
+it takes less than 3 minutes with `-j 18` to generate the same HTML tree on my
+24-core processor.
 
-```bash
-time src2html.pl --navigator --color --cross-reference --line-numbers \
-                 -j 1 ngx_openresty-1.9.3.2/bundle openresty-1.9.3.2
+```console
+$ time src2html.pl --navigator --color --cross-reference --line-numbers \
+                   -j 1 ngx_openresty-1.9.3.2/bundle openresty-1.9.3.2
 ...
 real    30m43.686s
 user    30m26.818s
 sys     0m15.420s
 
-time src2html.pl --navigator --color --cross-reference --line-numbers \
-                 -j 18 ngx_openresty-1.9.3.2/bundle openresty-1.9.3.2
+$ time src2html.pl --navigator --color --cross-reference --line-numbers \
+                   -j 18 ngx_openresty-1.9.3.2/bundle openresty-1.9.3.2
 ...
 real    2m49.172s
 user    35m56.337s
