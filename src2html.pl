@@ -522,8 +522,10 @@ sub canon_file_name ($) {
 sub add_cross_refs ($$$) {
     my ($ref_line, $file, $lineno) = @_;
 
-    $$ref_line =~ s#$cross_ref_pattern#
-                    add_cross_ref_esc_seq($1, $file, $lineno)#ge;
+    if (defined $cross_ref_pattern) {
+        $$ref_line =~ s#$cross_ref_pattern#
+                        add_cross_ref_esc_seq($1, $file, $lineno)#ge;
+    }
 }
 
 sub add_cross_ref_esc_seq ($$$) {
