@@ -265,7 +265,7 @@ should use "kindle" for other (smaller) models of Kindle.
 The ebook-convert utility is provided by Calibre, see its online
 documentation for full usage:
 
-http://calibre-ebook.com/user_manual/cli/ebook-convert.html
+https://manual.calibre-ebook.com/generated/en/ebook-convert.html
 
 Well you need both Perl and Python ;)
 
