@@ -209,7 +209,7 @@ sub shell ($) {
         # in the child process
 
         open STDIN, '/dev/null' or die "Cannot read /dev/null: $!";
-        open STDOUT, '/dev/null' or die "Cannott write to /dev/null: $!";
+        open STDOUT, '/dev/null' or die "Cannot write to /dev/null: $!";
         exec $cmd or die "failed to exec command: $cmd";
     }
 
