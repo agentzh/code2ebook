@@ -425,7 +425,7 @@ sub write_src_html ($$$$$) {
             #warn "$tmpfile\n";
         }
 
-        shell "$vim_cmd_prefix $infile";
+        shell "$vim_cmd_prefix \'$infile\'";
         $infile2 = $tmpfile;
 
     } else {
