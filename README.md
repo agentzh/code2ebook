@@ -116,7 +116,7 @@ Options:
     -i PATTERN
     --include PATTERN     Specify the pattern for extra source code file names
                           to include in the HTML output. Wildcards
-                          like * and [] are supported. And multiple occurances
+                          like * and [] are supported. And multiple occurrences
                           of this option are allowed.
 
     --include-only PATTERN
